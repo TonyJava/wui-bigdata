@@ -1,10 +1,8 @@
 import React from 'react';
+import { BarChart } from '../src';
 
 export default class Demo extends React.Component {
   render() {
-    return <div onClick={this.easterEgg}>click me</div>;
-  }
-  easterEgg() {
-    alert('easter egg');
+    return <BarChart />;
   }
 }
