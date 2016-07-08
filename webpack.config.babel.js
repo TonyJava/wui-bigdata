@@ -170,7 +170,8 @@ if (TARGET === 'gh-pages' || TARGET === 'gh-pages:stats') {
     entry: {
       app: config.paths.demo,
       vendors: [
-        'react'
+        'react',
+        'd3'
       ],
       style: STYLE_ENTRIES
     },

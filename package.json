@@ -90,5 +90,8 @@
   "pre-push": [
     "test",
     "test:lint"
-  ]
+  ],
+  "dependencies": {
+    "d3": "^3.5.12"
+  }
 }
