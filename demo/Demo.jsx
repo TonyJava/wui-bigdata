@@ -1,8 +1,16 @@
 import React from 'react';
-import { BarChart } from '../src';
+import {
+  BarChart,
+  ScatterChart
+} from '../src';
 
 export default class Demo extends React.Component {
   render() {
-    return <BarChart />;
+    return (
+      <div>
+        <BarChart />
+        <ScatterChart />
+      </div>
+    );
   }
 }
