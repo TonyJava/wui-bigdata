@@ -60,11 +60,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _BarChart2 = _interopRequireDefault(_BarChart);
 	
+	var _ScatterChart = __webpack_require__(4);
+	
+	var _ScatterChart2 = _interopRequireDefault(_ScatterChart);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// this should be the entry point to your library
 	module.exports = {
-	  BarChart: _BarChart2.default
+	  BarChart: _BarChart2.default,
+	  ScatterChart: _ScatterChart2.default
 	};
 
 /***/ },
@@ -125,6 +130,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.forceUpdate();
 	    }
 	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _d2.default.select(this.refs.xAxis).call(this.xAxis);
+	      _d2.default.select(this.refs.yAxis).call(this.yAxis);
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      _d2.default.select(this.refs.xAxis).call(this.xAxis);
+	      _d2.default.select(this.refs.yAxis).call(this.yAxis);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var width = 400;
@@ -135,15 +152,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        top: 20,
 	        bottom: 20
 	      };
-	      var rectStep = 35;
-	      var rectWidth = 30;
+	      var xAxisWidth = 300;
+	      var yAxisWidth = 300;
+	      var xScale = _d2.default.scale.ordinal().domain(_d2.default.range(this.state.data.length)).rangeRoundBands([0, xAxisWidth], 0.2);
+	      var yScale = _d2.default.scale.linear().domain([0, _d2.default.max(this.state.data)]).range([0, yAxisWidth]);
 	      var rectData = this.state.data.map(function (item, index) {
 	        return {
 	          fill: 'steelblue',
-	          x: padding.left + index * rectStep,
-	          y: height - padding.bottom - item,
-	          width: rectWidth,
-	          height: item
+	          x: padding.left + xScale(index),
+	          y: height - padding.bottom - yScale(item),
+	          width: xScale.rangeBand(),
+	          height: yScale(item)
 	        };
 	      });
 	      var textData = this.state.data.map(function (item, index) {
@@ -151,13 +170,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	          fill: 'white',
 	          fontSize: '14px',
 	          textAnchor: 'middle',
-	          x: padding.left + index * rectStep,
-	          y: height - padding.bottom - item,
-	          dx: rectWidth / 2,
+	          x: padding.left + xScale(index),
+	          y: height - padding.bottom - yScale(item),
+	          dx: xScale.rangeBand() / 2,
 	          dy: '1em',
 	          value: item
 	        };
 	      });
+	      this.xAxis = _d2.default.svg.axis().scale(xScale).orient('bottom');
+	      yScale.range([yAxisWidth, 0]);
+	      this.yAxis = _d2.default.svg.axis().scale(yScale).orient('left');
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -174,7 +196,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	              _extends({ key: index }, item),
 	              item.value
 	            );
-	          })
+	          }),
+	          _react2.default.createElement('g', { ref: 'xAxis',
+	            className: 'axis',
+	            transform: 'translate(' + padding.left + ',' + (height - padding.bottom) + ')' }),
+	          _react2.default.createElement('g', { ref: 'yAxis',
+	            className: 'axis',
+	            transform: 'translate(' + padding.left + ',' + (height - padding.top - yAxisWidth) + ')' })
 	        ),
 	        _react2.default.createElement(
 	          'button',
@@ -9758,6 +9786,106 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	  if (true) this.d3 = d3, !(__WEBPACK_AMD_DEFINE_FACTORY__ = (d3), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)); else if (typeof module === "object" && module.exports) module.exports = d3; else this.d3 = d3;
 	}();
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ScatterChart = function (_Component) {
+	  _inherits(ScatterChart, _Component);
+	
+	  function ScatterChart() {
+	    _classCallCheck(this, ScatterChart);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ScatterChart).apply(this, arguments));
+	  }
+	
+	  _createClass(ScatterChart, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _d2.default.select(this.refs.xAxis).call(this.xAxis);
+	      _d2.default.select(this.refs.yAxis).call(this.yAxis);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var width = 400;
+	      var height = 400;
+	      var xAxisWidth = 300;
+	      var yAxisWidth = 300;
+	      var padding = {
+	        top: 30,
+	        right: 30,
+	        bottom: 30,
+	        left: 30
+	      };
+	
+	      var center = [[0.5, 0.5], [0.7, 0.8], [0.4, 0.9], [0.11, 0.32], [0.88, 0.25], [0.75, 0.12], [0.5, 0.1], [0.2, 0.3], [0.4, 0.1], [0.6, 0.7]];
+	      var xScale = _d2.default.scale.linear().domain([0, 1.2 * _d2.default.max(center, function (d) {
+	        return d[0];
+	      })]).range([0, xAxisWidth]);
+	      var yScale = _d2.default.scale.linear().domain([0, 1.2 * _d2.default.max(center, function (d) {
+	        return d[1];
+	      })]).range([0, yAxisWidth]);
+	      var data = center.map(function (circle) {
+	        return {
+	          fill: 'black',
+	          cx: padding.left + xScale(circle[0]),
+	          cy: height - padding.bottom - yScale(circle[1]),
+	          r: 5
+	        };
+	      });
+	
+	      this.xAxis = _d2.default.svg.axis().scale(xScale).orient('bottom');
+	      yScale.range([yAxisWidth, 0]);
+	      this.yAxis = _d2.default.svg.axis().scale(yScale).orient('left');
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { width: width, height: height },
+	        data.map(function (circle, index) {
+	          return _react2.default.createElement('circle', _extends({ key: index }, circle));
+	        }),
+	        _react2.default.createElement('g', { ref: 'xAxis',
+	          className: 'axis',
+	          transform: 'translate(' + padding.left + ',' + (height - padding.bottom) + ')' }),
+	        _react2.default.createElement('g', { ref: 'yAxis',
+	          className: 'axis',
+	          transform: 'translate(' + padding.left + ',' + (height - padding.top - yAxisWidth) + ')' })
+	      );
+	    }
+	  }]);
+	
+	  return ScatterChart;
+	}(_react.Component);
+	
+	exports.default = ScatterChart;
 
 /***/ }
 /******/ ])
