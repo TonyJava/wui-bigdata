@@ -7,8 +7,7 @@ import {
   ForceDirectedGraph,
   ChordDiagram,
   TreeDiagram,
-  ClusterDiagram,
-  BundleDiagram
+  ClusterDiagram
 } from '../src';
 
 export default class Demo extends React.Component {
@@ -23,7 +22,6 @@ export default class Demo extends React.Component {
         <ChordDiagram />
         <TreeDiagram />
         <ClusterDiagram />
-        <BundleDiagram />
       </div>
     );
   }

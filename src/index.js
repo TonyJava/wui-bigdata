@@ -18,6 +18,6 @@ module.exports = {
   ForceDirectedGraph,
   ChordDiagram,
   TreeDiagram,
-  ClusterDiagram,
+  ClusterDiagram
 };
 
