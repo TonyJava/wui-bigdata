@@ -7,7 +7,7 @@ export default class BundleDiagram extends Component {
     const height = 600;
     const cluster = d3.layout.cluster()
                       .size([360, width / 2 - 50])
-                      .seperation((a, b) => (a.parent == b.parent ? 1 : 2) / a.depth);
+                      .separation((a, b) => (a.parent == b.parent ? 1 : 2) / a.depth);
     const bundle = d3.layout.bundle();
     const nodes = cluster.nodes(cities);
 
@@ -32,12 +32,34 @@ export default class BundleDiagram extends Component {
 
     const oLinks = map(nodes, railway);
     const links = bundle(oLinks);
+    const line = d3.svg.line.radial()
+                   .interpolate('bundle')
+                   .tension(.85)
+                   .radius(d => d.y)
+                   .angle(d => d.x / 180 * Math.PI);
+    const color = d3.scale.category20c();
 
     return (
       <svg width={width} height={height}>
-      {
-        links.map(link => <div>{link.name}</div>)
-      }
+        <g transform={`translate(${width / 2}, ${height / 2})`}>
+        {
+          links.map((link, index) => (
+            <path key={index}
+                  className="link"
+                  d={line(link)} />
+          ))
+        }
+        {
+          nodes.filter(d => !d.children).map((node, index) => (
+            <g key={index}
+               className="node"
+               transform={`rotate(${node.x - 90})translate(${node.y})rotate(${90 - node.x})`}>
+               <circle r={20} fill={color(index)} />
+               <text dy=".2em" textAnchor="middle">{node.name}</text>
+            </g>
+          ))
+        }
+        </g>
       </svg>
     );
   }

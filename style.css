@@ -10,3 +10,20 @@
   font-family: sans-serif;
   font-size: 11px;
 }
+
+.link {
+  fill: none;
+  stroke: black;
+  stroke-opacity: .5;
+  stroke-width: 8px;
+}
+
+.node {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.leafnode {
+  fill: green;
+}
