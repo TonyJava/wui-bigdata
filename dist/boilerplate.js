@@ -88,6 +88,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _ClusterDiagram2 = _interopRequireDefault(_ClusterDiagram);
 	
+	var _BundleDiagram = __webpack_require__(11);
+	
+	var _BundleDiagram2 = _interopRequireDefault(_BundleDiagram);
+	
+	var _PackDiagram = __webpack_require__(12);
+	
+	var _PackDiagram2 = _interopRequireDefault(_PackDiagram);
+	
+	var _Histogram = __webpack_require__(13);
+	
+	var _Histogram2 = _interopRequireDefault(_Histogram);
+	
+	var _PartitionDiagram = __webpack_require__(14);
+	
+	var _PartitionDiagram2 = _interopRequireDefault(_PartitionDiagram);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// this should be the entry point to your library
@@ -99,7 +115,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ForceDirectedGraph: _ForceDirectedGraph2.default,
 	  ChordDiagram: _ChordDiagram2.default,
 	  TreeDiagram: _TreeDiagram2.default,
-	  ClusterDiagram: _ClusterDiagram2.default
+	  ClusterDiagram: _ClusterDiagram2.default,
+	  BundleDiagram: _BundleDiagram2.default,
+	  PackDiagram: _PackDiagram2.default,
+	  Histogram: _Histogram2.default,
+	  PartitionDiagram: _PartitionDiagram2.default
 	};
 
 /***/ },
@@ -10589,6 +10609,390 @@ return /******/ (function(modules) { // webpackBootstrap
 	    'children': [{ 'name': '乌鲁木齐' }, { 'name': '克拉玛依' }, { 'name': '吐鲁番' }, { 'name': '哈密' }]
 	  }]
 	};
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BundleDiagram = function (_Component) {
+	  _inherits(BundleDiagram, _Component);
+	
+	  function BundleDiagram() {
+	    _classCallCheck(this, BundleDiagram);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(BundleDiagram).apply(this, arguments));
+	  }
+	
+	  _createClass(BundleDiagram, [{
+	    key: 'render',
+	    value: function render() {
+	      var width = 600;
+	      var height = 600;
+	      var cluster = _d2.default.layout.cluster().size([360, width / 2 - 50]).separation(function (a, b) {
+	        return (a.parent == b.parent ? 1 : 2) / a.depth;
+	      });
+	      var bundle = _d2.default.layout.bundle();
+	      var nodes = cluster.nodes(cities);
+	
+	      function map(nodes, links) {
+	        var hash = [];
+	
+	        for (var i = 0; i < nodes.length; i++) {
+	          hash[nodes[i].name] = nodes[i];
+	        }
+	
+	        var resultLinks = [];
+	
+	        for (var _i = 0; _i < links.length; _i++) {
+	          resultLinks.push({
+	            source: hash[links[_i].source],
+	            target: hash[links[_i].target]
+	          });
+	        }
+	
+	        return resultLinks;
+	      }
+	
+	      var oLinks = map(nodes, railway);
+	      var links = bundle(oLinks);
+	      var line = _d2.default.svg.line.radial().interpolate('bundle').tension(.85).radius(function (d) {
+	        return d.y;
+	      }).angle(function (d) {
+	        return d.x / 180 * Math.PI;
+	      });
+	      var color = _d2.default.scale.category20c();
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { width: width, height: height },
+	        _react2.default.createElement(
+	          'g',
+	          { transform: 'translate(' + width / 2 + ', ' + height / 2 + ')' },
+	          links.map(function (link, index) {
+	            return _react2.default.createElement('path', { key: index,
+	              className: 'link',
+	              d: line(link) });
+	          }),
+	          nodes.filter(function (d) {
+	            return !d.children;
+	          }).map(function (node, index) {
+	            return _react2.default.createElement(
+	              'g',
+	              { key: index,
+	                className: 'node',
+	                transform: 'rotate(' + (node.x - 90) + ')translate(' + node.y + ')rotate(' + (90 - node.x) + ')' },
+	              _react2.default.createElement('circle', { r: 20, fill: color(index) }),
+	              _react2.default.createElement(
+	                'text',
+	                { dy: '.2em', textAnchor: 'middle' },
+	                node.name
+	              )
+	            );
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return BundleDiagram;
+	}(_react.Component);
+	
+	exports.default = BundleDiagram;
+	
+	
+	var cities = {
+	  name: '',
+	  children: [{ name: '北京' }, { name: '上海' }, { name: '杭州' }, { name: '广州' }, { name: '桂林' }, { name: '昆明' }, { name: '成都' }, { name: '西安' }, { name: '太原' }]
+	};
+	
+	var railway = [{ source: '北京', target: '上海' }, { source: '北京', target: '广州' }, { source: '北京', target: '杭州' }, { source: '北京', target: '西安' }, { source: '北京', target: '成都' }, { source: '北京', target: '太原' }, { source: '北京', target: '桂林' }, { source: '北京', target: '昆明' }, { source: '北京', target: '成都' }, { source: '上海', target: '杭州' }, { source: '昆明', target: '成都' }, { source: '西安', target: '太原' }];
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PackDiagram = function (_Component) {
+	  _inherits(PackDiagram, _Component);
+	
+	  function PackDiagram() {
+	    _classCallCheck(this, PackDiagram);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PackDiagram).apply(this, arguments));
+	  }
+	
+	  _createClass(PackDiagram, [{
+	    key: 'render',
+	    value: function render() {
+	      var width = 600;
+	      var height = 600;
+	      var pack = _d2.default.layout.pack().size([width, height]).radius(30).padding(5);
+	      var nodes = pack.nodes(root);
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { width: width, height: height },
+	        nodes.map(function (node, index) {
+	          return _react2.default.createElement('circle', { key: index,
+	            className: node.children ? 'node' : 'leafnode',
+	            cx: node.x,
+	            cy: node.y,
+	            r: node.r });
+	        }),
+	        nodes.map(function (node, index) {
+	          return _react2.default.createElement(
+	            'text',
+	            { key: index,
+	              className: 'nodeText',
+	              fillOpacity: node.children ? 0 : 1,
+	              fontSize: '0.5em',
+	              textAnchor: 'middle',
+	              x: node.x,
+	              y: node.y,
+	              dy: '.3em' },
+	            node.name
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return PackDiagram;
+	}(_react.Component);
+	
+	exports.default = PackDiagram;
+	
+	
+	var root = {
+	  'name': '中国',
+	  'children': [{
+	    'name': '浙江',
+	    'children': [{ 'name': '杭州' }, { 'name': '宁波' }, { 'name': '温州' }, { 'name': '绍兴' }]
+	  }, {
+	    'name': '广西',
+	    'children': [{
+	      'name': '桂林',
+	      'children': [{ 'name': '秀峰区' }, { 'name': '叠彩区' }, { 'name': '象山区' }, { 'name': '七星区' }]
+	    }, { 'name': '南宁' }, { 'name': '柳州' }, { 'name': '防城港' }]
+	  }, {
+	    'name': '黑龙江',
+	    'children': [{ 'name': '哈尔滨' }, { 'name': '齐齐哈尔' }, { 'name': '牡丹江' }, { 'name': '大庆' }]
+	  }, {
+	    'name': '新疆',
+	    'children': [{ 'name': '乌鲁木齐' }, { 'name': '克拉玛依' }, { 'name': '吐鲁番' }, { 'name': '哈密' }]
+	  }]
+	};
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Histogram = function (_Component) {
+	  _inherits(Histogram, _Component);
+	
+	  function Histogram() {
+	    _classCallCheck(this, Histogram);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Histogram).apply(this, arguments));
+	  }
+	
+	  _createClass(Histogram, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _d2.default.select(this.refs.xAxis).call(this.xAxis);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var rand = _d2.default.random.normal(170, 10);
+	      var dataset = [];
+	
+	      for (var i = 0; i < 100; i++) {
+	        dataset.push(rand());
+	      }
+	
+	      var binNum = 20;
+	      var rangeMin = 130;
+	      var rangeMax = 210;
+	      var histogram = _d2.default.layout.histogram().range([rangeMin, rangeMax]).bins(binNum).frequency(true);
+	      var hisData = histogram(dataset);
+	      var width = 600;
+	      var height = 600;
+	      var xAxisWidth = 450;
+	      var xTicks = hisData.map(function (d) {
+	        return d.x;
+	      });
+	      var xScale = _d2.default.scale.ordinal().domain(xTicks).rangeRoundBands([0, xAxisWidth], 0.1);
+	      var padding = { top: 30, right: 30, bottom: 30, left: 30 };
+	      this.xAxis = _d2.default.svg.axis().scale(xScale).orient('bottom').tickFormat(_d2.default.format('.0f'));
+	      var yAxisWidth = 450;
+	      var yScale = _d2.default.scale.linear().domain([_d2.default.min(hisData, function (d) {
+	        return d.y;
+	      }), _d2.default.max(hisData, function (d) {
+	        return d.y;
+	      })]).range([5, yAxisWidth]);
+	      var lineGenerator = _d2.default.svg.line().x(function (d) {
+	        return xScale(d.x);
+	      }).y(function (d) {
+	        return height - yScale(d.y);
+	      }).interpolate('basis');
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { width: width, height: height },
+	        _react2.default.createElement(
+	          'g',
+	          { transform: 'translate(' + padding.left + ', -' + padding.bottom + ')' },
+	          hisData.map(function (data, index) {
+	            return _react2.default.createElement('rect', { key: index,
+	              className: 'rect',
+	              fill: 'steelblue',
+	              x: xScale(data.x),
+	              y: height - yScale(data.y),
+	              width: xScale.rangeBand(),
+	              height: yScale(data.y) });
+	          })
+	        ),
+	        _react2.default.createElement('g', { className: 'axis',
+	          ref: 'xAxis',
+	          transform: 'translate(' + padding.left + ', ' + (height - padding.bottom) + ')' }),
+	        _react2.default.createElement(
+	          'g',
+	          { transform: 'translate(' + padding.left + ', ' + -padding.bottom + ')' },
+	          _react2.default.createElement('path', { className: 'linePath',
+	            fill: 'none',
+	            stroke: 'green',
+	            strokeWidth: 4,
+	            d: lineGenerator(hisData) })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Histogram;
+	}(_react.Component);
+	
+	exports.default = Histogram;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PartitionDiagram = function (_Component) {
+	  _inherits(PartitionDiagram, _Component);
+	
+	  function PartitionDiagram() {
+	    _classCallCheck(this, PartitionDiagram);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PartitionDiagram).apply(this, arguments));
+	  }
+	
+	  _createClass(PartitionDiagram, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'PartitionDiagram'
+	      );
+	    }
+	  }]);
+	
+	  return PartitionDiagram;
+	}(_react.Component);
+	
+	exports.default = PartitionDiagram;
 
 /***/ }
 /******/ ])
