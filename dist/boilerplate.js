@@ -64,12 +64,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _ScatterChart2 = _interopRequireDefault(_ScatterChart);
 	
+	var _LineChart = __webpack_require__(5);
+	
+	var _LineChart2 = _interopRequireDefault(_LineChart);
+	
+	var _PieChart = __webpack_require__(6);
+	
+	var _PieChart2 = _interopRequireDefault(_PieChart);
+	
+	var _ForceDirectedGraph = __webpack_require__(7);
+	
+	var _ForceDirectedGraph2 = _interopRequireDefault(_ForceDirectedGraph);
+	
+	var _ChordDiagram = __webpack_require__(8);
+	
+	var _ChordDiagram2 = _interopRequireDefault(_ChordDiagram);
+	
+	var _TreeDiagram = __webpack_require__(9);
+	
+	var _TreeDiagram2 = _interopRequireDefault(_TreeDiagram);
+	
+	var _ClusterDiagram = __webpack_require__(10);
+	
+	var _ClusterDiagram2 = _interopRequireDefault(_ClusterDiagram);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// this should be the entry point to your library
 	module.exports = {
 	  BarChart: _BarChart2.default,
-	  ScatterChart: _ScatterChart2.default
+	  ScatterChart: _ScatterChart2.default,
+	  LineChart: _LineChart2.default,
+	  PieChart: _PieChart2.default,
+	  ForceDirectedGraph: _ForceDirectedGraph2.default,
+	  ChordDiagram: _ChordDiagram2.default,
+	  TreeDiagram: _TreeDiagram2.default,
+	  ClusterDiagram: _ClusterDiagram2.default
 	};
 
 /***/ },
@@ -111,7 +141,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BarChart).call(this));
 	
 	    _this.state = {
-	      data: [50, 43, 120, 87, 99, 167, 142]
+	      data: [{ value: 50 }, { value: 43 }, { value: 120 }, { value: 87 }, { value: 99 }, { value: 167 }, { value: 142 }]
 	    };
 	    return _this;
 	  }
@@ -120,13 +150,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'sortItems',
 	    value: function sortItems() {
 	      this.setState({
-	        data: this.state.data.sort(_d2.default.ascending)
+	        data: this.state.data.sort(function (a, b) {
+	          return a.value - b.value;
+	        })
 	      });
 	    }
 	  }, {
 	    key: 'addItem',
 	    value: function addItem() {
-	      this.state.data.push(Math.floor(Math.random() * 100));
+	      this.state.data.push({ value: Math.floor(Math.random() * 100) });
+	      this.forceUpdate();
+	    }
+	  }, {
+	    key: 'mouseEnter',
+	    value: function mouseEnter(index) {
+	      this.state.data[index].fill = 'yellow';
+	      this.forceUpdate();
+	    }
+	  }, {
+	    key: 'mouseLeave',
+	    value: function mouseLeave(index) {
+	      this.state.data[index].fill = 'steelblue';
 	      this.forceUpdate();
 	    }
 	  }, {
@@ -144,25 +188,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var width = 400;
-	      var height = 400;
+	      var _this2 = this;
+	
+	      var width = 600;
+	      var height = 600;
 	      var padding = {
 	        left: 20,
 	        right: 20,
 	        top: 20,
 	        bottom: 20
 	      };
-	      var xAxisWidth = 300;
-	      var yAxisWidth = 300;
+	      var xAxisWidth = 500;
+	      var yAxisWidth = 500;
 	      var xScale = _d2.default.scale.ordinal().domain(_d2.default.range(this.state.data.length)).rangeRoundBands([0, xAxisWidth], 0.2);
-	      var yScale = _d2.default.scale.linear().domain([0, _d2.default.max(this.state.data)]).range([0, yAxisWidth]);
+	      var yScale = _d2.default.scale.linear().domain([0, _d2.default.max(this.state.data, function (d) {
+	        return d.value;
+	      })]).range([0, yAxisWidth]);
 	      var rectData = this.state.data.map(function (item, index) {
 	        return {
-	          fill: 'steelblue',
+	          fill: item.fill || 'steelblue',
 	          x: padding.left + xScale(index),
-	          y: height - padding.bottom - yScale(item),
+	          y: height - padding.bottom - yScale(item.value),
 	          width: xScale.rangeBand(),
-	          height: yScale(item)
+	          height: yScale(item.value)
 	        };
 	      });
 	      var textData = this.state.data.map(function (item, index) {
@@ -171,10 +219,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          fontSize: '14px',
 	          textAnchor: 'middle',
 	          x: padding.left + xScale(index),
-	          y: height - padding.bottom - yScale(item),
+	          y: height - padding.bottom - yScale(item.value),
 	          dx: xScale.rangeBand() / 2,
 	          dy: '1em',
-	          value: item
+	          value: item.value
 	        };
 	      });
 	      this.xAxis = _d2.default.svg.axis().scale(xScale).orient('bottom');
@@ -188,7 +236,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          'svg',
 	          { height: height, width: width },
 	          rectData.map(function (item, index) {
-	            return _react2.default.createElement('rect', _extends({ key: index }, item));
+	            return _react2.default.createElement('rect', _extends({ onMouseEnter: _this2.mouseEnter.bind(_this2, index),
+	              onMouseLeave: _this2.mouseLeave.bind(_this2, index),
+	              key: index }, item));
 	          }),
 	          textData.map(function (item, index) {
 	            return _react2.default.createElement(
@@ -9886,6 +9936,659 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_react.Component);
 	
 	exports.default = ScatterChart;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var LineChart = function (_Component) {
+	  _inherits(LineChart, _Component);
+	
+	  function LineChart() {
+	    _classCallCheck(this, LineChart);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(LineChart).apply(this, arguments));
+	  }
+	
+	  _createClass(LineChart, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _d2.default.select(this.refs.xAxis).call(this.xAxis);
+	      _d2.default.select(this.refs.yAxis).call(this.yAxis);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var dataset = [{
+	        country: 'china',
+	        gdp: [[2000, 11920], [2001, 13170], [2002, 14550], [2003, 16500], [2004, 19440], [2005, 22870], [2006, 27930], [2007, 35040], [2008, 45470], [2009, 51050], [2010, 59490], [2011, 73140], [2012, 83860], [2013, 103550]]
+	      }, {
+	        country: 'japan',
+	        gdp: [[2000, 47310], [2001, 41590], [2002, 39800], [2003, 43020], [2004, 46500], [2005, 45710], [2006, 43560], [2007, 43560], [2008, 48490], [2009, 50350], [2010, 54950], [2011, 59050], [2012, 59370], [2013, 48980]]
+	      }];
+	      var width = 400;
+	      var height = 400;
+	      var padding = {
+	        top: 50,
+	        right: 50,
+	        bottom: 50,
+	        left: 50
+	      };
+	      var gdpmax = 0;
+	
+	      for (var i = 0; i < dataset.length; i++) {
+	        var currGdp = _d2.default.max(dataset[i].gdp, function (d) {
+	          return d[1];
+	        });
+	
+	        if (currGdp > gdpmax) {
+	          gdpmax = currGdp;
+	        }
+	      }
+	      var xScale = _d2.default.scale.linear().domain([2000, 2013]).range([0, width - padding.left - padding.right]);
+	      var yScale = _d2.default.scale.linear().domain([0, gdpmax * 1.1]).range([height - padding.top - padding.bottom, 0]);
+	
+	      var linePath = _d2.default.svg.line().x(function (d) {
+	        return xScale(d[0]);
+	      }).y(function (d) {
+	        return yScale(d[1]);
+	      });
+	      var colors = [_d2.default.rgb(0, 0, 255), _d2.default.rgb(0, 255, 0)];
+	
+	      this.xAxis = _d2.default.svg.axis().scale(xScale).ticks(5).tickFormat(_d2.default.format('d')).orient('bottom');
+	      this.yAxis = _d2.default.svg.axis().scale(yScale).orient('left');
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { width: width, height: height },
+	        dataset.map(function (data, index) {
+	          return _react2.default.createElement('path', { key: index,
+	            transform: 'translate(' + padding.left + ', ' + padding.top + ')',
+	            d: linePath(data.gdp),
+	            fill: 'none',
+	            strokeWidth: 3,
+	            stroke: colors[index] });
+	        }),
+	        _react2.default.createElement('g', { ref: 'xAxis',
+	          className: 'axis',
+	          transform: 'translate(' + padding.left + ',' + (height - padding.bottom) + ')' }),
+	        _react2.default.createElement('g', { ref: 'yAxis',
+	          className: 'axis',
+	          transform: 'translate(' + padding.left + ',' + padding.top + ')' })
+	      );
+	    }
+	  }]);
+	
+	  return LineChart;
+	}(_react.Component);
+	
+	exports.default = LineChart;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PieChart = function (_Component) {
+	  _inherits(PieChart, _Component);
+	
+	  function PieChart() {
+	    _classCallCheck(this, PieChart);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PieChart).apply(this, arguments));
+	  }
+	
+	  _createClass(PieChart, [{
+	    key: 'render',
+	    value: function render() {
+	      var width = 600;
+	      var height = 600;
+	      var dataset = [['小米', 60.8], ['三星', 58.4], ['联想', 47.3], ['苹果', 46.6], ['华为', 41.3], ['酷派', 40.1], ['其他', 111.5]];
+	      var pie = _d2.default.layout.pie().value(function (d) {
+	        return d[1];
+	      });
+	      var pieData = pie(dataset);
+	      var outerRadius = width / 3;
+	      var innerRadius = 0;
+	      var arc = _d2.default.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
+	      var color = _d2.default.scale.category20();
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { width: width, height: height },
+	        pieData.map(function (data, index) {
+	          return _react2.default.createElement(
+	            'g',
+	            { transform: 'translate(' + width / 2 + ', ' + height / 2 + ')', key: index },
+	            _react2.default.createElement('path', { fill: color(index), d: arc(data) }),
+	            _react2.default.createElement(
+	              'text',
+	              { transform: 'translate(' + arc.centroid(data)[0] * 1.4 + ', ' + arc.centroid(data)[1] * 1.4 + ')',
+	                textAnchor: 'middle' },
+	              (Number(data.value) / _d2.default.sum(dataset, function (d) {
+	                return d[1];
+	              }) * 100).toFixed(1) + '%'
+	            ),
+	            _react2.default.createElement('line', { stroke: 'black',
+	              x1: arc.centroid(data)[0] * 2,
+	              y1: arc.centroid(data)[1] * 2,
+	              x2: arc.centroid(data)[0] * 2.2,
+	              y2: arc.centroid(data)[1] * 2.2 }),
+	            _react2.default.createElement(
+	              'text',
+	              { transform: 'translate(' + arc.centroid(data)[0] * 2.5 + ', ' + arc.centroid(data)[1] * 2.5 + ')',
+	                textAnchor: 'middle' },
+	              data.data[0]
+	            )
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return PieChart;
+	}(_react.Component);
+	
+	exports.default = PieChart;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ForceDirectedGraph = function (_Component) {
+	  _inherits(ForceDirectedGraph, _Component);
+	
+	  function ForceDirectedGraph() {
+	    _classCallCheck(this, ForceDirectedGraph);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ForceDirectedGraph).apply(this, arguments));
+	  }
+	
+	  _createClass(ForceDirectedGraph, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+	
+	      this.lines = _d2.default.select(this.refs['force-svg']).selectAll('.forceLine').data(this.edges);
+	      this.circles = _d2.default.select(this.refs['force-svg']).selectAll('.forceCircle').data(this.nodes).call(this.force.drag);
+	      this.texts = _d2.default.select(this.refs['force-svg']).selectAll('.forceText').data(this.nodes);
+	      this.force.on('tick', function () {
+	        _this2.lines.attr('x1', function (d) {
+	          return d.source.x;
+	        });
+	        _this2.lines.attr('y1', function (d) {
+	          return d.source.y;
+	        });
+	        _this2.lines.attr('x2', function (d) {
+	          return d.target.x;
+	        });
+	        _this2.lines.attr('y2', function (d) {
+	          return d.target.y;
+	        });
+	
+	        _this2.circles.attr('cx', function (d) {
+	          return d.x;
+	        });
+	        _this2.circles.attr('cy', function (d) {
+	          return d.y;
+	        });
+	
+	        _this2.texts.attr('x', function (d) {
+	          return d.x;
+	        });
+	        _this2.texts.attr('y', function (d) {
+	          return d.y;
+	        });
+	      });
+	      this.force.start();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      this.nodes = [{ name: '0' }, { name: '1' }, { name: '2' }, { name: '3' }, { name: '4' }, { name: '5' }, { name: '6' }];
+	      this.edges = [{ source: 0, target: 1 }, { source: 0, target: 2 }, { source: 0, target: 3 }, { source: 1, target: 4 }, { source: 1, target: 5 }, { source: 1, target: 6 }];
+	      var width = 400;
+	      var height = 400;
+	      this.force = _d2.default.layout.force().nodes(this.nodes).links(this.edges).size([width, height]).linkDistance(90).charge(-400);
+	      var color = _d2.default.scale.category20();
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { ref: 'force-svg', width: width, height: height },
+	        this.edges.map(function (edge, index) {
+	          return _react2.default.createElement('line', { key: index, className: 'forceLine', stroke: 'black' });
+	        }),
+	        this.nodes.map(function (node, index) {
+	          return _react2.default.createElement('circle', { key: index,
+	            className: 'forceCircle',
+	            r: 20,
+	            fill: color(index) });
+	        }),
+	        this.nodes.map(function (node, index) {
+	          return _react2.default.createElement(
+	            'text',
+	            { key: index,
+	              className: 'forceText',
+	              x: node.x,
+	              y: node.y,
+	              dy: '.3em' },
+	            node.name
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return ForceDirectedGraph;
+	}(_react.Component);
+	
+	exports.default = ForceDirectedGraph;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ChordDiagram = function (_Component) {
+	  _inherits(ChordDiagram, _Component);
+	
+	  function ChordDiagram() {
+	    _classCallCheck(this, ChordDiagram);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ChordDiagram).apply(this, arguments));
+	  }
+	
+	  _createClass(ChordDiagram, [{
+	    key: 'render',
+	    value: function render() {
+	      var continent = ['亚洲', '欧洲', '非洲', '美洲', '大洋洲'];
+	      var population = [[9000, 870, 3000, 1000, 5200], [3400, 8000, 2300, 4922, 374], [2000, 2000, 7700, 4881, 1050], [3000, 8012, 5531, 500, 400], [3540, 4310, 1500, 1900, 300]];
+	      var chord = _d2.default.layout.chord().padding(0.03).sortSubgroups(_d2.default.ascending).matrix(population);
+	      var width = 600;
+	      var height = 600;
+	      var color20 = _d2.default.scale.category20();
+	      var innerRadius = width / 2 * 0.7;
+	      var outerRadius = innerRadius * 1.1;
+	      var arcOuter = _d2.default.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
+	
+	      var arcInner = _d2.default.svg.chord().radius(innerRadius);
+	
+	      var innerPaths = _d2.default.select(this.refs['chord-svg']).selectAll('.innerPath').data(chord.chords());
+	      var fade = function fade(opacity, index) {
+	        return function () {
+	          innerPaths.filter(function (d) {
+	            return d.source.index != index && d.target.index != index;
+	          }).transition().style('opacity', opacity);
+	        };
+	      };
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { ref: 'chord-svg', width: width, height: height },
+	        _react2.default.createElement(
+	          'g',
+	          { transform: 'translate(' + width / 2 + ', ' + height / 2 + ')' },
+	          _react2.default.createElement(
+	            'g',
+	            null,
+	            chord.groups().map(function (d, index) {
+	              return _react2.default.createElement('path', { className: 'outerPath',
+	                onMouseEnter: fade(0, index),
+	                onMouseLeave: fade(1, index),
+	                key: index,
+	                fill: color20(d.index),
+	                d: arcOuter(d) });
+	            }),
+	            chord.groups().map(function (d, index) {
+	              var angle = (d.startAngle + d.endAngle) / 2;
+	              var transform = 'rotate(' + angle * 180 / Math.PI + ')';
+	
+	              transform += 'translate(0, ' + -1.0 * (outerRadius + 10) + ')';
+	
+	              if (angle > Math.PI * 3 / 4 && angle < Math.PI * 5 / 4) {
+	                transform += 'rotate(180)';
+	              }
+	
+	              return _react2.default.createElement(
+	                'text',
+	                { key: index,
+	                  className: 'outerText',
+	                  dy: '.35em',
+	                  transform: transform },
+	                continent[index]
+	              );
+	            })
+	          ),
+	          _react2.default.createElement(
+	            'g',
+	            null,
+	            chord.chords().map(function (d, index) {
+	              return _react2.default.createElement('path', { key: index,
+	                className: 'innerPath',
+	                d: arcInner(d),
+	                fill: color20(d.source.index) });
+	            })
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ChordDiagram;
+	}(_react.Component);
+	
+	exports.default = ChordDiagram;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var TreeDiagram = function (_Component) {
+	  _inherits(TreeDiagram, _Component);
+	
+	  function TreeDiagram() {
+	    _classCallCheck(this, TreeDiagram);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TreeDiagram).apply(this, arguments));
+	  }
+	
+	  _createClass(TreeDiagram, [{
+	    key: 'render',
+	    value: function render() {
+	      var width = 600;
+	      var height = 600;
+	      var tree = _d2.default.layout.tree().size([width, height - 200]).separation(function (a, b) {
+	        return a.parent == b.parent ? 1 : 2;
+	      });
+	      var nodes = tree.nodes(root);
+	      var links = tree.links(nodes);
+	      var diagonal = _d2.default.svg.diagonal().projection(function (d) {
+	        return [d.y, d.x];
+	      });
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { width: width, height: height },
+	        links.map(function (link, index) {
+	          return _react2.default.createElement('path', { key: index,
+	            className: 'link',
+	            d: diagonal(link) });
+	        }),
+	        nodes.map(function (node, index) {
+	          return _react2.default.createElement(
+	            'g',
+	            { key: index,
+	              className: 'node',
+	              transform: 'translate(' + node.y + ', ' + node.x + ')' },
+	            _react2.default.createElement('circle', { r: 4.5 }),
+	            _react2.default.createElement(
+	              'text',
+	              { dx: node.children ? -8 : 8,
+	                dy: 3,
+	                textAnchor: node.children ? 'end' : 'start' },
+	              node.name
+	            )
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return TreeDiagram;
+	}(_react.Component);
+	
+	exports.default = TreeDiagram;
+	
+	
+	var root = {
+	  'name': '中国',
+	  'children': [{
+	    'name': '浙江',
+	    'children': [{ 'name': '杭州' }, { 'name': '宁波' }, { 'name': '温州' }, { 'name': '绍兴' }]
+	  }, {
+	    'name': '广西',
+	    'children': [{
+	      'name': '桂林',
+	      'children': [{ 'name': '秀峰区' }, { 'name': '叠彩区' }, { 'name': '象山区' }, { 'name': '七星区' }]
+	    }, { 'name': '南宁' }, { 'name': '柳州' }, { 'name': '防城港' }]
+	  }, {
+	    'name': '黑龙江',
+	    'children': [{ 'name': '哈尔滨' }, { 'name': '齐齐哈尔' }, { 'name': '牡丹江' }, { 'name': '大庆' }]
+	  }, {
+	    'name': '新疆',
+	    'children': [{ 'name': '乌鲁木齐' }, { 'name': '克拉玛依' }, { 'name': '吐鲁番' }, { 'name': '哈密' }]
+	  }]
+	};
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ClusterDiagram = function (_Component) {
+	  _inherits(ClusterDiagram, _Component);
+	
+	  function ClusterDiagram() {
+	    _classCallCheck(this, ClusterDiagram);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ClusterDiagram).apply(this, arguments));
+	  }
+	
+	  _createClass(ClusterDiagram, [{
+	    key: 'render',
+	    value: function render() {
+	      var width = 600;
+	      var height = 600;
+	      var cluster = _d2.default.layout.cluster().size([360, width / 2 - 100]).separation(function (a, b) {
+	        return (a.parent === b.parent ? 1 : 2) / a.depth;
+	      });
+	      var nodes = cluster.nodes(root);
+	      var links = cluster.links(nodes);
+	      var diagonal = _d2.default.svg.diagonal.radial().projection(function (d) {
+	        var radius = d.y,
+	            angle = d.x / 180 * Math.PI;
+	
+	        return [radius, angle];
+	      });
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { width: width, height: height },
+	        _react2.default.createElement(
+	          'g',
+	          { transform: 'translate(' + width / 2 + ', ' + height / 2 + ')' },
+	          links.map(function (link, index) {
+	            return _react2.default.createElement('path', { key: index,
+	              className: 'link',
+	              d: diagonal(link) });
+	          }),
+	          nodes.map(function (node, index) {
+	            return _react2.default.createElement(
+	              'g',
+	              { key: index,
+	                className: 'node',
+	                transform: 'rotate(' + (node.x - 90) + ') translate(' + node.y + ')' },
+	              _react2.default.createElement('circle', { r: 4.5 }),
+	              _react2.default.createElement(
+	                'text',
+	                { transform: node.x < 180 ? 'translate(8)' : 'rotate(180) translate(-8)',
+	                  dy: '.3em',
+	                  textAnchor: node.x < 180 ? 'start' : 'end' },
+	                node.name
+	              )
+	            );
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ClusterDiagram;
+	}(_react.Component);
+	
+	exports.default = ClusterDiagram;
+	
+	
+	var root = {
+	  'name': '中国',
+	  'children': [{
+	    'name': '浙江',
+	    'children': [{ 'name': '杭州' }, { 'name': '宁波' }, { 'name': '温州' }, { 'name': '绍兴' }]
+	  }, {
+	    'name': '广西',
+	    'children': [{
+	      'name': '桂林',
+	      'children': [{ 'name': '秀峰区' }, { 'name': '叠彩区' }, { 'name': '象山区' }, { 'name': '七星区' }]
+	    }, { 'name': '南宁' }, { 'name': '柳州' }, { 'name': '防城港' }]
+	  }, {
+	    'name': '黑龙江',
+	    'children': [{ 'name': '哈尔滨' }, { 'name': '齐齐哈尔' }, { 'name': '牡丹江' }, { 'name': '大庆' }]
+	  }, {
+	    'name': '新疆',
+	    'children': [{ 'name': '乌鲁木齐' }, { 'name': '克拉玛依' }, { 'name': '吐鲁番' }, { 'name': '哈密' }]
+	  }]
+	};
 
 /***/ }
 /******/ ])
