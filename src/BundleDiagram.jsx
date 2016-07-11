@@ -33,7 +33,13 @@ export default class BundleDiagram extends Component {
     const oLinks = map(nodes, railway);
     const links = bundle(oLinks);
 
-    return <div>Bundle Diagram</div>;
+    return (
+      <svg width={width} height={height}>
+      {
+        links.map(link => <div>{link.name}</div>)
+      }
+      </svg>
+    );
   }
 }
 
