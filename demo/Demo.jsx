@@ -1,7 +1,14 @@
 import React from 'react';
 import {
   BarChart,
-  ScatterChart
+  ScatterChart,
+  LineChart,
+  PieChart,
+  ForceDirectedGraph,
+  ChordDiagram,
+  TreeDiagram,
+  ClusterDiagram,
+  BundleDiagram
 } from '../src';
 
 export default class Demo extends React.Component {
@@ -10,6 +17,13 @@ export default class Demo extends React.Component {
       <div>
         <BarChart />
         <ScatterChart />
+        <LineChart />
+        <PieChart />
+        <ForceDirectedGraph />
+        <ChordDiagram />
+        <TreeDiagram />
+        <ClusterDiagram />
+        <BundleDiagram />
       </div>
     );
   }
