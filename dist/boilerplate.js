@@ -104,6 +104,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _PartitionDiagram2 = _interopRequireDefault(_PartitionDiagram);
 	
+	var _StackDiagram = __webpack_require__(15);
+	
+	var _StackDiagram2 = _interopRequireDefault(_StackDiagram);
+	
+	var _Treemap = __webpack_require__(16);
+	
+	var _Treemap2 = _interopRequireDefault(_Treemap);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// this should be the entry point to your library
@@ -119,7 +127,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  BundleDiagram: _BundleDiagram2.default,
 	  PackDiagram: _PackDiagram2.default,
 	  Histogram: _Histogram2.default,
-	  PartitionDiagram: _PartitionDiagram2.default
+	  PartitionDiagram: _PartitionDiagram2.default,
+	  StackDiagram: _StackDiagram2.default,
+	  Treemap: _Treemap2.default
 	};
 
 /***/ },
@@ -10955,11 +10965,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -10979,13 +10995,110 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  _createClass(PartitionDiagram, [{
+	    key: 'textTransform',
+	    value: function textTransform(d, i) {
+	      if (i !== 0) {
+	        var r = d.x + d.dx / 2;
+	        var angle = Math.PI / 2;
+	
+	        r += r < Math.PI ? angle * -1 : angle;
+	        r *= 180 / Math.PI;
+	
+	        return 'translate(' + this.arc.centroid(d) + ')rotate(' + r + ')';
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        'PartitionDiagram'
-	      );
+	      var _this2 = this;
+	
+	      if (this.props.shape === 'rect') {
+	        var _ret = function () {
+	          var width = 800;
+	          var height = 500;
+	          var partition = _d2.default.layout.partition().sort(null).size([800, 500]).value(function () {
+	            return 1;
+	          });
+	          var color = _d2.default.scale.category20();
+	          var nodes = partition.nodes(root);
+	
+	          return {
+	            v: _react2.default.createElement(
+	              'svg',
+	              { width: width, height: height },
+	              nodes.map(function (d, index) {
+	                return _react2.default.createElement(
+	                  'g',
+	                  { key: index },
+	                  _react2.default.createElement('rect', { x: d.x,
+	                    y: d.y,
+	                    width: d.dx,
+	                    height: d.dy,
+	                    stroke: '#fff',
+	                    fill: color((d.children ? d : d.parent).name) }),
+	                  _react2.default.createElement(
+	                    'text',
+	                    { className: 'nodeText',
+	                      x: d.x,
+	                      y: d.y,
+	                      dx: 20,
+	                      dy: 20 },
+	                    d.name
+	                  )
+	                );
+	              })
+	            )
+	          };
+	        }();
+	
+	        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+	      } else {
+	        var _ret2 = function () {
+	          var width = 600;
+	          var height = 600;
+	          var radius = 300;
+	          var partition = _d2.default.layout.partition().sort(null).size([2 * Math.PI, radius * radius]).value(function () {
+	            return 1;
+	          });
+	          var color = _d2.default.scale.category20();
+	          var nodes = partition.nodes(root);
+	          _this2.arc = _d2.default.svg.arc().startAngle(function (d) {
+	            return d.x;
+	          }).endAngle(function (d) {
+	            return d.x + d.dx;
+	          }).innerRadius(function (d) {
+	            return Math.sqrt(d.y);
+	          }).outerRadius(function (d) {
+	            return Math.sqrt(d.y + d.dy);
+	          });
+	
+	          return {
+	            v: _react2.default.createElement(
+	              'svg',
+	              { width: width, height: height },
+	              nodes.map(function (d, index) {
+	                return _react2.default.createElement(
+	                  'g',
+	                  { key: index, transform: 'translate(' + width / 2 + ', ' + height / 2 + ')' },
+	                  _react2.default.createElement('path', { display: d.depth ? null : 'none',
+	                    d: _this2.arc(d),
+	                    stroke: '#fff',
+	                    fill: color((d.children ? d : d.parent).name) }),
+	                  _react2.default.createElement(
+	                    'text',
+	                    { className: 'nodeText',
+	                      dy: '.5em',
+	                      transform: _this2.textTransform(d, index) },
+	                    d.name
+	                  )
+	                );
+	              })
+	            )
+	          };
+	        }();
+	
+	        if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
+	      }
 	    }
 	  }]);
 	
@@ -10993,6 +11106,270 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_react.Component);
 	
 	exports.default = PartitionDiagram;
+	
+	
+	var root = {
+	  'name': '中国',
+	  'children': [{
+	    'name': '浙江',
+	    'children': [{ 'name': '杭州' }, { 'name': '宁波' }, { 'name': '温州' }, { 'name': '绍兴' }]
+	  }, {
+	    'name': '广西',
+	    'children': [{
+	      'name': '桂林',
+	      'children': [{ 'name': '秀峰区' }, { 'name': '叠彩区' }, { 'name': '象山区' }, { 'name': '七星区' }]
+	    }, { 'name': '南宁' }, { 'name': '柳州' }, { 'name': '防城港' }]
+	  }, {
+	    'name': '黑龙江',
+	    'children': [{ 'name': '哈尔滨' }, { 'name': '齐齐哈尔' }, { 'name': '牡丹江' }, { 'name': '大庆' }]
+	  }, {
+	    'name': '新疆',
+	    'children': [{ 'name': '乌鲁木齐' }, { 'name': '克拉玛依' }, { 'name': '吐鲁番' }, { 'name': '哈密' }]
+	  }]
+	};
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var StackDiagram = function (_Component) {
+	  _inherits(StackDiagram, _Component);
+	
+	  function StackDiagram() {
+	    _classCallCheck(this, StackDiagram);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(StackDiagram).apply(this, arguments));
+	  }
+	
+	  _createClass(StackDiagram, [{
+	    key: 'render',
+	    value: function render() {
+	      var dataset = [{
+	        name: 'PC',
+	        sales: [{ year: 2005, profit: 3000 }, { year: 2006, profit: 1300 }, { year: 2007, profit: 3700 }, { year: 2008, profit: 4900 }, { year: 2009, profit: 700 }]
+	      }, {
+	        name: 'SmartPhone',
+	        sales: [{ year: 2005, profit: 2000 }, { year: 2006, profit: 4000 }, { year: 2007, profit: 1810 }, { year: 2008, profit: 6540 }, { year: 2009, profit: 2820 }]
+	      }, {
+	        name: 'Software',
+	        sales: [{ year: 2005, profit: 1100 }, { year: 2006, profit: 1700 }, { year: 2007, profit: 1680 }, { year: 2008, profit: 4000 }, { year: 2009, profit: 4900 }]
+	      }];
+	      var width = 600;
+	      var height = 600;
+	      var stack = _d2.default.layout.stack().values(function (d) {
+	        return d.sales;
+	      }).x(function (d) {
+	        return d.year;
+	      }).y(function (d) {
+	        return d.profit;
+	      });
+	      var data = stack(dataset);
+	      var padding = { top: 30, right: 100, bottom: 30, left: 50 };
+	      var xRangeWidth = width - padding.left - padding.right;
+	      var xScale = _d2.default.scale.ordinal().domain(data[0].sales.map(function (d) {
+	        return d.year;
+	      })).rangeBands([0, xRangeWidth], 0.3);
+	      var maxProfit = _d2.default.max(data[data.length - 1].sales, function (d) {
+	        return d.y0 + d.y;
+	      });
+	      var yRangeWidth = height - padding.top - padding.bottom;
+	      var yScale = _d2.default.scale.linear().domain([0, maxProfit]).range([0, yRangeWidth]);
+	      var color = _d2.default.scale.category10();
+	
+	      var labHeight = 50;
+	      var labRadius = 10;
+	
+	      var area = _d2.default.svg.area().x(function (d) {
+	        return xScale(d.year) + xScale.rangeBand() / 2;
+	      }).y0(function (d) {
+	        return yRangeWidth - yScale(d.y0);
+	      }).y1(function (d) {
+	        return yRangeWidth - yScale(d.y0 + d.y);
+	      }).interpolate('basis');
+	
+	      if (this.props.shape === 'rect') {
+	        return _react2.default.createElement(
+	          'svg',
+	          { width: width, height: height },
+	          data.map(function (d, i) {
+	            return _react2.default.createElement(
+	              'g',
+	              { index: i,
+	                fill: color(i) },
+	              d.sales.map(function (d, i) {
+	                return _react2.default.createElement('rect', { index: i,
+	                  x: xScale(d.year),
+	                  y: yRangeWidth - yScale(d.y0 + d.y),
+	                  width: xScale.rangeBand(),
+	                  height: yScale(d.y),
+	                  transform: 'translate(' + padding.left + ', ' + padding.top + ')' });
+	              }),
+	              _react2.default.createElement('circle', { cx: width - padding.right * 0.98,
+	                cy: padding.top * 2 + labHeight * i,
+	                r: labRadius }),
+	              _react2.default.createElement(
+	                'text',
+	                { x: width - padding.right * 0.8,
+	                  y: padding.top * 2 + labHeight * i,
+	                  dy: labRadius / 2 },
+	                d.name
+	              )
+	            );
+	          })
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'svg',
+	          { width: width, height: height },
+	          data.map(function (d, i) {
+	            return _react2.default.createElement(
+	              'g',
+	              { index: i,
+	                fill: color(i) },
+	              _react2.default.createElement('path', { d: area(d.sales) }),
+	              _react2.default.createElement('circle', { cx: width - padding.right * 0.98,
+	                cy: padding.top * 2 + labHeight * i,
+	                r: labRadius }),
+	              _react2.default.createElement(
+	                'text',
+	                { x: width - padding.right * 0.8,
+	                  y: padding.top * 2 + labHeight * i,
+	                  dy: labRadius / 2 },
+	                d.name
+	              )
+	            );
+	          })
+	        );
+	      }
+	    }
+	  }]);
+	
+	  return StackDiagram;
+	}(_react.Component);
+	
+	exports.default = StackDiagram;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Treemap = function (_Component) {
+	  _inherits(Treemap, _Component);
+	
+	  function Treemap() {
+	    _classCallCheck(this, Treemap);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Treemap).apply(this, arguments));
+	  }
+	
+	  _createClass(Treemap, [{
+	    key: 'render',
+	    value: function render() {
+	      var width = 600;
+	      var height = 600;
+	      var treemap = _d2.default.layout.treemap().size([width, height]).value(function (d) {
+	        return d.gdp;
+	      });
+	      var nodes = treemap.nodes(root);
+	      var color = _d2.default.scale.category20();
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { width: width, height: height },
+	        nodes.filter(function (d) {
+	          return !d.children;
+	        }).map(function (d, i) {
+	          return _react2.default.createElement(
+	            'g',
+	            { key: i },
+	            _react2.default.createElement('rect', { className: 'nodeRect',
+	              x: d.x,
+	              y: d.y,
+	              width: d.dx,
+	              height: d.dy,
+	              fill: color(d.parent.name) }),
+	            _react2.default.createElement(
+	              'text',
+	              { className: 'nodeName',
+	                x: d.x,
+	                y: d.y,
+	                dx: '0.5em',
+	                dy: '1.5em' },
+	              d.name + ' ' + d.gdp
+	            )
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return Treemap;
+	}(_react.Component);
+	
+	exports.default = Treemap;
+	
+	
+	var root = {
+	  'name': '中国',
+	  'children': [{
+	    'name': '浙江',
+	    'children': [{ 'name': '杭州', 'gdp': 8343 }, { 'name': '宁波', 'gdp': 7128 }, { 'name': '温州', 'gdp': 4003 }, { 'name': '绍兴', 'gdp': 3620 }, { 'name': '湖州', 'gdp': 1803 }, { 'name': '嘉兴', 'gdp': 3147 }, { 'name': '金华', 'gdp': 2958 }, { 'name': '衢州', 'gdp': 1056 }, { 'name': '舟山', 'gdp': 1021 }, { 'name': '台州', 'gdp': 3153 }, { 'name': '丽水', 'gdp': 983 }]
+	  }, {
+	    'name': '广西',
+	    'children': [{ 'name': '南宁', 'gdp': 3148 }, { 'name': '柳州', 'gdp': 2016 }, { 'name': '桂林', 'gdp': 1657 }, { 'name': '梧州', 'gdp': 991 }, { 'name': '北海', 'gdp': 734 }, { 'name': '防城港', 'gdp': 525 }, { 'name': '钦州', 'gdp': 734 }, { 'name': '贵港', 'gdp': 742 }, { 'name': '玉林', 'gdp': 1300 }, { 'name': '百色', 'gdp': 656 }, { 'name': '贺州', 'gdp': 423 }, { 'name': '河池', 'gdp': 497 }, { 'name': '来宾', 'gdp': 519 }, { 'name': '崇左', 'gdp': 649 }]
+	  }, {
+	    'name': '江苏',
+	    'children': [{ 'name': '南京', 'gdp': 8820 }, { 'name': '无锡', 'gdp': 8205 }, { 'name': '徐州', 'gdp': 4964 }, { 'name': '常州', 'gdp': 4360 }, { 'name': '苏州', 'gdp': 13500 }, { 'name': '南通', 'gdp': 5038 }, { 'name': '连云港', 'gdp': 1785 }, { 'name': '淮安', 'gdp': 2455 }, { 'name': '盐城', 'gdp': 3836 }, { 'name': '扬州', 'gdp': 3697 }, { 'name': '镇江', 'gdp': 2950 }, { 'name': '泰州', 'gdp': 3006 }, { 'name': '宿迁', 'gdp': 1930 }]
+	  }]
+	};
 
 /***/ }
 /******/ ])
