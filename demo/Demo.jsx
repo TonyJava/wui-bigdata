@@ -11,7 +11,9 @@ import {
   BundleDiagram,
   PackDiagram,
   Histogram,
-  PartitionDiagram
+  PartitionDiagram,
+  StackDiagram,
+  Treemap
 } from '../src';
 
 export default class Demo extends React.Component {
@@ -29,7 +31,11 @@ export default class Demo extends React.Component {
         <BundleDiagram />
         <PackDiagram />
         <Histogram />
-        <PartitionDiagram />
+        <PartitionDiagram shape="rect" />
+        <PartitionDiagram shape="circle" />
+        <StackDiagram shape="rect" />
+        <StackDiagram shape="area" />
+        <Treemap />
       </div>
     );
   }

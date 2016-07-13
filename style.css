@@ -27,3 +27,20 @@
 .leafnode {
   fill: green;
 }
+
+.nodeText {
+  writing-mode: tb;
+  font-family: simsun;
+  font-size: 16px;
+}
+
+.nodeRect {
+  stroke: white;
+  stroke-width: 2px;
+}
+
+.nodeName {
+  fill: white;
+  font-size: 12px;
+  font-family: simsun;
+}

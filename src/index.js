@@ -12,6 +12,8 @@ import BundleDiagram from './BundleDiagram.jsx';
 import PackDiagram from './PackDiagram.jsx';
 import Histogram from './Histogram.jsx';
 import PartitionDiagram from './PartitionDiagram.jsx';
+import StackDiagram from './StackDiagram.jsx';
+import Treemap from './Treemap.jsx';
 
 // this should be the entry point to your library
 module.exports = {
@@ -26,5 +28,7 @@ module.exports = {
   BundleDiagram,
   PackDiagram,
   Histogram,
-  PartitionDiagram
+  PartitionDiagram,
+  StackDiagram,
+  Treemap
 };
