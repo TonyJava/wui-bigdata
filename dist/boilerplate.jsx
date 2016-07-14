@@ -11,41 +11,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-/******/
+
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-/******/
+
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-/******/
+
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-/******/
+
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
+
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-/******/
+
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
-/******/
+
+
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-/******/
+
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-/******/
+
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-/******/
+
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
@@ -55,67 +55,67 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	var _BarChart = __webpack_require__(1);
-	
+
 	var _BarChart2 = _interopRequireDefault(_BarChart);
-	
+
 	var _ScatterChart = __webpack_require__(4);
-	
+
 	var _ScatterChart2 = _interopRequireDefault(_ScatterChart);
-	
+
 	var _LineChart = __webpack_require__(5);
-	
+
 	var _LineChart2 = _interopRequireDefault(_LineChart);
-	
+
 	var _PieChart = __webpack_require__(6);
-	
+
 	var _PieChart2 = _interopRequireDefault(_PieChart);
-	
+
 	var _ForceDirectedGraph = __webpack_require__(7);
-	
+
 	var _ForceDirectedGraph2 = _interopRequireDefault(_ForceDirectedGraph);
-	
+
 	var _ChordDiagram = __webpack_require__(8);
-	
+
 	var _ChordDiagram2 = _interopRequireDefault(_ChordDiagram);
-	
+
 	var _TreeDiagram = __webpack_require__(9);
-	
+
 	var _TreeDiagram2 = _interopRequireDefault(_TreeDiagram);
-	
+
 	var _ClusterDiagram = __webpack_require__(10);
-	
+
 	var _ClusterDiagram2 = _interopRequireDefault(_ClusterDiagram);
-	
+
 	var _BundleDiagram = __webpack_require__(11);
-	
+
 	var _BundleDiagram2 = _interopRequireDefault(_BundleDiagram);
-	
+
 	var _PackDiagram = __webpack_require__(12);
-	
+
 	var _PackDiagram2 = _interopRequireDefault(_PackDiagram);
-	
+
 	var _Histogram = __webpack_require__(13);
-	
+
 	var _Histogram2 = _interopRequireDefault(_Histogram);
-	
+
 	var _PartitionDiagram = __webpack_require__(14);
-	
+
 	var _PartitionDiagram2 = _interopRequireDefault(_PartitionDiagram);
-	
+
 	var _StackDiagram = __webpack_require__(15);
-	
+
 	var _StackDiagram2 = _interopRequireDefault(_StackDiagram);
-	
+
 	var _Treemap = __webpack_require__(16);
-	
+
 	var _Treemap2 = _interopRequireDefault(_Treemap);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	// import GeoMap from './GeoMap.jsx';
-	
+
 	// this should be the entry point to your library
 	module.exports = {
 	  BarChart: _BarChart2.default,
@@ -140,45 +140,45 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var BarChart = function (_Component) {
 	  _inherits(BarChart, _Component);
-	
+
 	  function BarChart() {
 	    _classCallCheck(this, BarChart);
-	
+
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BarChart).call(this));
-	
+
 	    _this.state = {
 	      data: [{ value: 50 }, { value: 43 }, { value: 120 }, { value: 87 }, { value: 99 }, { value: 167 }, { value: 142 }]
 	    };
 	    return _this;
 	  }
-	
+
 	  _createClass(BarChart, [{
 	    key: 'sortItems',
 	    value: function sortItems() {
@@ -222,7 +222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
-	
+
 	      var width = 600;
 	      var height = 600;
 	      var padding = {
@@ -261,7 +261,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.xAxis = _d2.default.svg.axis().scale(xScale).orient('bottom');
 	      yScale.range([yAxisWidth, 0]);
 	      this.yAxis = _d2.default.svg.axis().scale(yScale).orient('left');
-	
+
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -300,10 +300,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return BarChart;
 	}(_react.Component);
-	
+
 	exports.default = BarChart;
 
 /***/ },
@@ -2029,7 +2029,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        {
 	          return hsl(parseFloat(m2[0]), parseFloat(m2[1]) / 100, parseFloat(m2[2]) / 100);
 	        }
-	
+
 	       case "rgb":
 	        {
 	          return rgb(d3_rgb_parseNumber(m2[0]), d3_rgb_parseNumber(m2[1]), d3_rgb_parseNumber(m2[2]));
@@ -2549,33 +2549,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	        comma = true;
 	        type = "g";
 	        break;
-	
+
 	       case "%":
 	        scale = 100;
 	        suffix = "%";
 	        type = "f";
 	        break;
-	
+
 	       case "p":
 	        scale = 100;
 	        suffix = "%";
 	        type = "r";
 	        break;
-	
+
 	       case "b":
 	       case "o":
 	       case "x":
 	       case "X":
 	        if (symbol === "#") prefix = "0" + type.toLowerCase();
-	
+
 	       case "c":
 	        exponent = false;
-	
+
 	       case "d":
 	        integer = true;
 	        precision = 0;
 	        break;
-	
+
 	       case "s":
 	        scale = -1;
 	        type = "r";
@@ -6014,15 +6014,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	         case 0:
 	          find(node, x1, y1, xm, ym);
 	          break;
-	
+
 	         case 1:
 	          find(node, xm, y1, x2, ym);
 	          break;
-	
+
 	         case 2:
 	          find(node, x1, ym, xm, y2);
 	          break;
-	
+
 	         case 3:
 	          find(node, xm, ym, x2, y2);
 	          break;
@@ -9875,40 +9875,40 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var ScatterChart = function (_Component) {
 	  _inherits(ScatterChart, _Component);
-	
+
 	  function ScatterChart() {
 	    _classCallCheck(this, ScatterChart);
-	
+
 	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ScatterChart).apply(this, arguments));
 	  }
-	
+
 	  _createClass(ScatterChart, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
@@ -9928,7 +9928,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        bottom: 30,
 	        left: 30
 	      };
-	
+
 	      var center = [[0.5, 0.5], [0.7, 0.8], [0.4, 0.9], [0.11, 0.32], [0.88, 0.25], [0.75, 0.12], [0.5, 0.1], [0.2, 0.3], [0.4, 0.1], [0.6, 0.7]];
 	      var xScale = _d2.default.scale.linear().domain([0, 1.2 * _d2.default.max(center, function (d) {
 	        return d[0];
@@ -9944,11 +9944,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          r: 5
 	        };
 	      });
-	
+
 	      this.xAxis = _d2.default.svg.axis().scale(xScale).orient('bottom');
 	      yScale.range([yAxisWidth, 0]);
 	      this.yAxis = _d2.default.svg.axis().scale(yScale).orient('left');
-	
+
 	      return _react2.default.createElement(
 	        'svg',
 	        { width: width, height: height },
@@ -9964,10 +9964,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return ScatterChart;
 	}(_react.Component);
-	
+
 	exports.default = ScatterChart;
 
 /***/ },
@@ -9975,39 +9975,39 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var LineChart = function (_Component) {
 	  _inherits(LineChart, _Component);
-	
+
 	  function LineChart() {
 	    _classCallCheck(this, LineChart);
-	
+
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LineChart).call(this));
-	
+
 	    _this.state = {
 	      focusCircleStyle: {},
 	      focusLineText: '',
@@ -10017,7 +10017,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    return _this;
 	  }
-	
+
 	  _createClass(LineChart, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
@@ -10056,7 +10056,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var y1 = data[index][1];
 	      var focusX = this.xScale(x1) + this.padding.left;
 	      var focusY = this.yScale(y1) + this.padding.top;
-	
+
 	      this.setState({
 	        focusCircleStyle: {
 	          transform: 'translate(' + focusX + ', ' + focusY + ')'
@@ -10080,7 +10080,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
-	
+
 	      this.dataset = [{
 	        country: 'china',
 	        gdp: [[2000, 11920], [2001, 13170], [2002, 14550], [2003, 16500], [2004, 19440], [2005, 22870], [2006, 27930], [2007, 35040], [2008, 45470], [2009, 51050], [2010, 59490], [2011, 73140], [2012, 83860], [2013, 103550]]
@@ -10097,29 +10097,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	        left: 50
 	      };
 	      var gdpmax = 0;
-	
+
 	      for (var i = 0; i < this.dataset.length; i++) {
 	        var currGdp = _d2.default.max(this.dataset[i].gdp, function (d) {
 	          return d[1];
 	        });
-	
+
 	        if (currGdp > gdpmax) {
 	          gdpmax = currGdp;
 	        }
 	      }
 	      this.xScale = _d2.default.scale.linear().domain([2000, 2013]).range([0, width - this.padding.left - this.padding.right]);
 	      this.yScale = _d2.default.scale.linear().domain([0, gdpmax * 1.1]).range([this.height - this.padding.top - this.padding.bottom, 0]);
-	
+
 	      var linePath = _d2.default.svg.line().x(function (d) {
 	        return _this2.xScale(d[0]);
 	      }).y(function (d) {
 	        return _this2.yScale(d[1]);
 	      });
 	      var colors = [_d2.default.rgb(0, 0, 255), _d2.default.rgb(0, 255, 0)];
-	
+
 	      this.xAxis = _d2.default.svg.axis().scale(this.xScale).ticks(5).tickFormat(_d2.default.format('d')).orient('bottom');
 	      this.yAxis = _d2.default.svg.axis().scale(this.yScale).orient('left');
-	
+
 	      return _react2.default.createElement(
 	        'svg',
 	        { width: width, height: this.height },
@@ -10166,10 +10166,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return LineChart;
 	}(_react.Component);
-	
+
 	exports.default = LineChart;
 
 /***/ },
@@ -10177,44 +10177,44 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var PieChart = function (_Component) {
 	  _inherits(PieChart, _Component);
-	
+
 	  function PieChart() {
 	    _classCallCheck(this, PieChart);
-	
+
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PieChart).call(this));
-	
+
 	    _this.state = {
 	      tooltip: '',
 	      style: {}
 	    };
 	    return _this;
 	  }
-	
+
 	  _createClass(PieChart, [{
 	    key: 'onMouseOver',
 	    value: function onMouseOver(d) {
@@ -10246,7 +10246,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
-	
+
 	      var width = 600;
 	      var height = 600;
 	      var dataset = [['小米', 60.8], ['三星', 58.4], ['联想', 47.3], ['苹果', 46.6], ['华为', 41.3], ['酷派', 40.1], ['其他', 111.5]];
@@ -10258,7 +10258,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var innerRadius = 0;
 	      var arc = _d2.default.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
 	      var color = _d2.default.scale.category20();
-	
+
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -10303,10 +10303,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return PieChart;
 	}(_react.Component);
-	
+
 	exports.default = PieChart;
 
 /***/ },
@@ -10314,43 +10314,43 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var ForceDirectedGraph = function (_Component) {
 	  _inherits(ForceDirectedGraph, _Component);
-	
+
 	  function ForceDirectedGraph() {
 	    _classCallCheck(this, ForceDirectedGraph);
-	
+
 	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ForceDirectedGraph).apply(this, arguments));
 	  }
-	
+
 	  _createClass(ForceDirectedGraph, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this2 = this;
-	
+
 	      this.lines = _d2.default.select(this.refs['force-svg']).selectAll('.forceLine').data(this.edges);
 	      this.circles = _d2.default.select(this.refs['force-svg']).selectAll('.forceCircle').data(this.nodes).call(this.force.drag);
 	      this.texts = _d2.default.select(this.refs['force-svg']).selectAll('.forceText').data(this.nodes);
@@ -10367,14 +10367,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this2.lines.attr('y2', function (d) {
 	          return d.target.y;
 	        });
-	
+
 	        _this2.circles.attr('cx', function (d) {
 	          return d.x;
 	        });
 	        _this2.circles.attr('cy', function (d) {
 	          return d.y;
 	        });
-	
+
 	        _this2.texts.attr('x', function (d) {
 	          return d.x;
 	        });
@@ -10393,7 +10393,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var height = 400;
 	      this.force = _d2.default.layout.force().nodes(this.nodes).links(this.edges).size([width, height]).linkDistance(90).charge(-400);
 	      var color = _d2.default.scale.category20();
-	
+
 	      return _react2.default.createElement(
 	        'svg',
 	        { ref: 'force-svg', width: width, height: height },
@@ -10420,10 +10420,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return ForceDirectedGraph;
 	}(_react.Component);
-	
+
 	exports.default = ForceDirectedGraph;
 
 /***/ },
@@ -10431,38 +10431,38 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var ChordDiagram = function (_Component) {
 	  _inherits(ChordDiagram, _Component);
-	
+
 	  function ChordDiagram() {
 	    _classCallCheck(this, ChordDiagram);
-	
+
 	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ChordDiagram).apply(this, arguments));
 	  }
-	
+
 	  _createClass(ChordDiagram, [{
 	    key: 'render',
 	    value: function render() {
@@ -10475,9 +10475,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var innerRadius = width / 2 * 0.7;
 	      var outerRadius = innerRadius * 1.1;
 	      var arcOuter = _d2.default.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-	
+
 	      var arcInner = _d2.default.svg.chord().radius(innerRadius);
-	
+
 	      var innerPaths = _d2.default.select(this.refs['chord-svg']).selectAll('.innerPath').data(chord.chords());
 	      var fade = function fade(opacity, index) {
 	        return function () {
@@ -10486,7 +10486,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }).transition().style('opacity', opacity);
 	        };
 	      };
-	
+
 	      return _react2.default.createElement(
 	        'svg',
 	        { ref: 'chord-svg', width: width, height: height },
@@ -10507,13 +10507,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            chord.groups().map(function (d, index) {
 	              var angle = (d.startAngle + d.endAngle) / 2;
 	              var transform = 'rotate(' + angle * 180 / Math.PI + ')';
-	
+
 	              transform += 'translate(0, ' + -1.0 * (outerRadius + 10) + ')';
-	
+
 	              if (angle > Math.PI * 3 / 4 && angle < Math.PI * 5 / 4) {
 	                transform += 'rotate(180)';
 	              }
-	
+
 	              return _react2.default.createElement(
 	                'text',
 	                { key: index,
@@ -10538,10 +10538,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return ChordDiagram;
 	}(_react.Component);
-	
+
 	exports.default = ChordDiagram;
 
 /***/ },
@@ -10549,38 +10549,38 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var TreeDiagram = function (_Component) {
 	  _inherits(TreeDiagram, _Component);
-	
+
 	  function TreeDiagram() {
 	    _classCallCheck(this, TreeDiagram);
-	
+
 	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TreeDiagram).apply(this, arguments));
 	  }
-	
+
 	  _createClass(TreeDiagram, [{
 	    key: 'render',
 	    value: function render() {
@@ -10594,7 +10594,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var diagonal = _d2.default.svg.diagonal().projection(function (d) {
 	        return [d.y, d.x];
 	      });
-	
+
 	      return _react2.default.createElement(
 	        'svg',
 	        { width: width, height: height },
@@ -10622,13 +10622,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return TreeDiagram;
 	}(_react.Component);
-	
+
 	exports.default = TreeDiagram;
-	
-	
+
+
 	var root = {
 	  'name': '中国',
 	  'children': [{
@@ -10654,38 +10654,38 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var ClusterDiagram = function (_Component) {
 	  _inherits(ClusterDiagram, _Component);
-	
+
 	  function ClusterDiagram() {
 	    _classCallCheck(this, ClusterDiagram);
-	
+
 	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ClusterDiagram).apply(this, arguments));
 	  }
-	
+
 	  _createClass(ClusterDiagram, [{
 	    key: 'render',
 	    value: function render() {
@@ -10699,10 +10699,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var diagonal = _d2.default.svg.diagonal.radial().projection(function (d) {
 	        var radius = d.y,
 	            angle = d.x / 180 * Math.PI;
-	
+
 	        return [radius, angle];
 	      });
-	
+
 	      return _react2.default.createElement(
 	        'svg',
 	        { width: width, height: height },
@@ -10734,13 +10734,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return ClusterDiagram;
 	}(_react.Component);
-	
+
 	exports.default = ClusterDiagram;
-	
-	
+
+
 	var root = {
 	  'name': '中国',
 	  'children': [{
@@ -10766,38 +10766,38 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var BundleDiagram = function (_Component) {
 	  _inherits(BundleDiagram, _Component);
-	
+
 	  function BundleDiagram() {
 	    _classCallCheck(this, BundleDiagram);
-	
+
 	    return _possibleConstructorReturn(this, Object.getPrototypeOf(BundleDiagram).apply(this, arguments));
 	  }
-	
+
 	  _createClass(BundleDiagram, [{
 	    key: 'render',
 	    value: function render() {
@@ -10808,26 +10808,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	      var bundle = _d2.default.layout.bundle();
 	      var nodes = cluster.nodes(cities);
-	
+
 	      function map(nodes, links) {
 	        var hash = [];
-	
+
 	        for (var i = 0; i < nodes.length; i++) {
 	          hash[nodes[i].name] = nodes[i];
 	        }
-	
+
 	        var resultLinks = [];
-	
+
 	        for (var _i = 0; _i < links.length; _i++) {
 	          resultLinks.push({
 	            source: hash[links[_i].source],
 	            target: hash[links[_i].target]
 	          });
 	        }
-	
+
 	        return resultLinks;
 	      }
-	
+
 	      var oLinks = map(nodes, railway);
 	      var links = bundle(oLinks);
 	      var line = _d2.default.svg.line.radial().interpolate('bundle').tension(.85).radius(function (d) {
@@ -10836,7 +10836,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return d.x / 180 * Math.PI;
 	      });
 	      var color = _d2.default.scale.category20c();
-	
+
 	      return _react2.default.createElement(
 	        'svg',
 	        { width: width, height: height },
@@ -10868,18 +10868,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return BundleDiagram;
 	}(_react.Component);
-	
+
 	exports.default = BundleDiagram;
-	
-	
+
+
 	var cities = {
 	  name: '',
 	  children: [{ name: '北京' }, { name: '上海' }, { name: '杭州' }, { name: '广州' }, { name: '桂林' }, { name: '昆明' }, { name: '成都' }, { name: '西安' }, { name: '太原' }]
 	};
-	
+
 	var railway = [{ source: '北京', target: '上海' }, { source: '北京', target: '广州' }, { source: '北京', target: '杭州' }, { source: '北京', target: '西安' }, { source: '北京', target: '成都' }, { source: '北京', target: '太原' }, { source: '北京', target: '桂林' }, { source: '北京', target: '昆明' }, { source: '北京', target: '成都' }, { source: '上海', target: '杭州' }, { source: '昆明', target: '成都' }, { source: '西安', target: '太原' }];
 
 /***/ },
@@ -10887,38 +10887,38 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var PackDiagram = function (_Component) {
 	  _inherits(PackDiagram, _Component);
-	
+
 	  function PackDiagram() {
 	    _classCallCheck(this, PackDiagram);
-	
+
 	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PackDiagram).apply(this, arguments));
 	  }
-	
+
 	  _createClass(PackDiagram, [{
 	    key: 'render',
 	    value: function render() {
@@ -10926,7 +10926,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var height = 600;
 	      var pack = _d2.default.layout.pack().size([width, height]).radius(30).padding(5);
 	      var nodes = pack.nodes(root);
-	
+
 	      return _react2.default.createElement(
 	        'svg',
 	        { width: width, height: height },
@@ -10954,13 +10954,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return PackDiagram;
 	}(_react.Component);
-	
+
 	exports.default = PackDiagram;
-	
-	
+
+
 	var root = {
 	  'name': '中国',
 	  'children': [{
@@ -10986,38 +10986,38 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var Histogram = function (_Component) {
 	  _inherits(Histogram, _Component);
-	
+
 	  function Histogram() {
 	    _classCallCheck(this, Histogram);
-	
+
 	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Histogram).apply(this, arguments));
 	  }
-	
+
 	  _createClass(Histogram, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
@@ -11028,11 +11028,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function render() {
 	      var rand = _d2.default.random.normal(170, 10);
 	      var dataset = [];
-	
+
 	      for (var i = 0; i < 100; i++) {
 	        dataset.push(rand());
 	      }
-	
+
 	      var binNum = 20;
 	      var rangeMin = 130;
 	      var rangeMax = 210;
@@ -11058,7 +11058,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }).y(function (d) {
 	        return height - yScale(d.y);
 	      }).interpolate('basis');
-	
+
 	      return _react2.default.createElement(
 	        'svg',
 	        { width: width, height: height },
@@ -11090,10 +11090,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return Histogram;
 	}(_react.Component);
-	
+
 	exports.default = Histogram;
 
 /***/ },
@@ -11101,50 +11101,50 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var PartitionDiagram = function (_Component) {
 	  _inherits(PartitionDiagram, _Component);
-	
+
 	  function PartitionDiagram() {
 	    _classCallCheck(this, PartitionDiagram);
-	
+
 	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PartitionDiagram).apply(this, arguments));
 	  }
-	
+
 	  _createClass(PartitionDiagram, [{
 	    key: 'textTransform',
 	    value: function textTransform(d, i) {
 	      if (i !== 0) {
 	        var r = d.x + d.dx / 2;
 	        var angle = Math.PI / 2;
-	
+
 	        r += r < Math.PI ? angle * -1 : angle;
 	        r *= 180 / Math.PI;
-	
+
 	        return 'translate(' + this.arc.centroid(d) + ')rotate(' + r + ')';
 	      }
 	    }
@@ -11152,7 +11152,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
-	
+
 	      if (this.props.shape === 'rect') {
 	        var _ret = function () {
 	          var width = 800;
@@ -11162,7 +11162,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          });
 	          var color = _d2.default.scale.category20();
 	          var nodes = partition.nodes(root);
-	
+
 	          return {
 	            v: _react2.default.createElement(
 	              'svg',
@@ -11191,7 +11191,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            )
 	          };
 	        }();
-	
+
 	        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 	      } else {
 	        var _ret2 = function () {
@@ -11212,7 +11212,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }).outerRadius(function (d) {
 	            return Math.sqrt(d.y + d.dy);
 	          });
-	
+
 	          return {
 	            v: _react2.default.createElement(
 	              'svg',
@@ -11237,18 +11237,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	            )
 	          };
 	        }();
-	
+
 	        if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
 	      }
 	    }
 	  }]);
-	
+
 	  return PartitionDiagram;
 	}(_react.Component);
-	
+
 	exports.default = PartitionDiagram;
-	
-	
+
+
 	var root = {
 	  'name': '中国',
 	  'children': [{
@@ -11274,38 +11274,38 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var StackDiagram = function (_Component) {
 	  _inherits(StackDiagram, _Component);
-	
+
 	  function StackDiagram() {
 	    _classCallCheck(this, StackDiagram);
-	
+
 	    return _possibleConstructorReturn(this, Object.getPrototypeOf(StackDiagram).apply(this, arguments));
 	  }
-	
+
 	  _createClass(StackDiagram, [{
 	    key: 'render',
 	    value: function render() {
@@ -11340,10 +11340,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var yRangeWidth = height - padding.top - padding.bottom;
 	      var yScale = _d2.default.scale.linear().domain([0, maxProfit]).range([0, yRangeWidth]);
 	      var color = _d2.default.scale.category10();
-	
+
 	      var labHeight = 50;
 	      var labRadius = 10;
-	
+
 	      var area = _d2.default.svg.area().x(function (d) {
 	        return xScale(d.year) + xScale.rangeBand() / 2;
 	      }).y0(function (d) {
@@ -11351,7 +11351,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }).y1(function (d) {
 	        return yRangeWidth - yScale(d.y0 + d.y);
 	      }).interpolate('basis');
-	
+
 	      if (this.props.shape === 'rect') {
 	        return _react2.default.createElement(
 	          'svg',
@@ -11408,10 +11408,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	  }]);
-	
+
 	  return StackDiagram;
 	}(_react.Component);
-	
+
 	exports.default = StackDiagram;
 
 /***/ },
@@ -11419,38 +11419,38 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
+
 	var _react = __webpack_require__(2);
-	
+
 	var _react2 = _interopRequireDefault(_react);
-	
+
 	var _d = __webpack_require__(3);
-	
+
 	var _d2 = _interopRequireDefault(_d);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
+
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
+
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
+
 	var Treemap = function (_Component) {
 	  _inherits(Treemap, _Component);
-	
+
 	  function Treemap() {
 	    _classCallCheck(this, Treemap);
-	
+
 	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Treemap).apply(this, arguments));
 	  }
-	
+
 	  _createClass(Treemap, [{
 	    key: 'render',
 	    value: function render() {
@@ -11461,7 +11461,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	      var nodes = treemap.nodes(root);
 	      var color = _d2.default.scale.category20();
-	
+
 	      return _react2.default.createElement(
 	        'svg',
 	        { width: width, height: height },
@@ -11491,13 +11491,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }]);
-	
+
 	  return Treemap;
 	}(_react.Component);
-	
+
 	exports.default = Treemap;
-	
-	
+
+
 	var root = {
 	  'name': '中国',
 	  'children': [{
@@ -11516,4 +11516,3 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-//# sourceMappingURL=boilerplate.js.map

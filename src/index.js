@@ -14,7 +14,7 @@ import Histogram from './Histogram.jsx';
 import PartitionDiagram from './PartitionDiagram.jsx';
 import StackDiagram from './StackDiagram.jsx';
 import Treemap from './Treemap.jsx';
-import GeoMap from './GeoMap.jsx';
+// import GeoMap from './GeoMap.jsx';
 
 // this should be the entry point to your library
 module.exports = {
@@ -31,6 +31,6 @@ module.exports = {
   Histogram,
   PartitionDiagram,
   StackDiagram,
-  Treemap,
-  GeoMap
+  Treemap
+  // GeoMap
 };
