@@ -44,3 +44,34 @@
   font-size: 12px;
   font-family: simsun;
 }
+
+.province {
+  stroke: black;
+  stroke-width: 1px;
+}
+
+.tooltip {
+  position: absolute;
+  width: 120px;
+  height: auto;
+  text-align: center;
+  font-family: simsun;
+  font-size: 14px;
+  color: white;
+  background-color: black;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.tooltip:after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 20%;
+  margin-left: -8px;
+  width: 0;
+  height: 0;
+  border-bottom: 12px solid #000000;
+  border-right: 12px solid transparent;
+  border-left: 12px solid transparent;
+}

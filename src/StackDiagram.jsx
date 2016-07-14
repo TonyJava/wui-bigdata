@@ -60,12 +60,12 @@ export default class StackDiagram extends Component {
       return (
         <svg width={width} height={height}>
         {
-          data.map((d, i) => (
-            <g index={i}
-               fill={color(i)}>
+          data.map((d, index) => (
+            <g key={index}
+               fill={color(index)}>
             {
               d.sales.map((d, i) => (
-                <rect index={i}
+                <rect key={i}
                       x={xScale(d.year)}
                       y={yRangeWidth - yScale(d.y0 + d.y)}
                       width={xScale.rangeBand()}
@@ -74,10 +74,10 @@ export default class StackDiagram extends Component {
               ))
             }
               <circle cx={width - padding.right * 0.98}
-                      cy={padding.top * 2 + labHeight * i}
+                      cy={padding.top * 2 + labHeight * index}
                       r={labRadius} />
               <text x={width - padding.right * 0.8}
-                    y={padding.top * 2 + labHeight * i}
+                    y={padding.top * 2 + labHeight * index}
                     dy={labRadius / 2}>
                 { d.name }
               </text>
@@ -90,15 +90,15 @@ export default class StackDiagram extends Component {
       return (
         <svg width={width} height={height}>
         {
-          data.map((d, i) => (
-            <g index={i}
-               fill={color(i)}>
+          data.map((d, index) => (
+            <g key={index}
+               fill={color(index)}>
               <path d={area(d.sales)} />
               <circle cx={width - padding.right * 0.98}
-                      cy={padding.top * 2 + labHeight * i}
+                      cy={padding.top * 2 + labHeight * index}
                       r={labRadius} />
               <text x={width - padding.right * 0.8}
-                    y={padding.top * 2 + labHeight * i}
+                    y={padding.top * 2 + labHeight * index}
                     dy={labRadius / 2}>
                 { d.name }
               </text>

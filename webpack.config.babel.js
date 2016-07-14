@@ -77,7 +77,11 @@ const demoCommon = {
       {
         test: /\.json$/,
         loader: 'json',
-        include: path.join(ROOT_PATH, 'package.json')
+        include: [
+          path.join(ROOT_PATH, 'package.json'),
+          config.paths.demo,
+          config.paths.src
+        ]
       }
     ]
   },
