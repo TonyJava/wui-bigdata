@@ -3,7 +3,7 @@
   "description": "Big data visualization library for WUI framework.",
   "author": "Cloud Mu <muyunsong@gmail.com> (https://muyunsong.com)",
   "user": "corncandy",
-  "version": "0.1.12",
+  "version": "0.1.11",
   "scripts": {
     "start": "webpack-dev-server",
     "test": "karma start",
@@ -21,7 +21,7 @@
     "postpublish": "npm run gh-pages && npm run gh-pages:deploy",
     "postinstall": "node lib/post_install.js"
   },
-  "main": "src",
+  "main": "dist-modules",
   "devDependencies": {
     "babel-cli": "^6.10.1",
     "babel-core": "^6.10.4",

@@ -15,7 +15,7 @@ import {
   StackDiagram,
   Treemap
   // GeoMap
-} from '../src';
+} from '../src/index.jsx';
 
 export default class Demo extends React.Component {
   render() {
