@@ -112,6 +112,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _Treemap2 = _interopRequireDefault(_Treemap);
 	
+	var _GeoMap = __webpack_require__(17);
+	
+	var _GeoMap2 = _interopRequireDefault(_GeoMap);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// this should be the entry point to your library
@@ -129,7 +133,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Histogram: _Histogram2.default,
 	  PartitionDiagram: _PartitionDiagram2.default,
 	  StackDiagram: _StackDiagram2.default,
-	  Treemap: _Treemap2.default
+	  Treemap: _Treemap2.default,
+	  GeoMap: _GeoMap2.default
 	};
 
 /***/ },
@@ -9977,6 +9982,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(2);
@@ -10001,7 +10008,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function LineChart() {
 	    _classCallCheck(this, LineChart);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(LineChart).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LineChart).call(this));
+	
+	    _this.state = {
+	      focusCircleStyle: {},
+	      focusLineText: '',
+	      focusLineStyle: {},
+	      verticalLine: {},
+	      horizontalLine: {}
+	    };
+	    return _this;
 	  }
 	
 	  _createClass(LineChart, [{
@@ -10009,11 +10025,65 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function componentDidMount() {
 	      _d2.default.select(this.refs.xAxis).call(this.xAxis);
 	      _d2.default.select(this.refs.yAxis).call(this.yAxis);
+	      _d2.default.select(this.refs.overlay).on('mousemove', this.onMouseMove.bind(this));
+	    }
+	  }, {
+	    key: 'onMouseOver',
+	    value: function onMouseOver() {
+	      this.setState({
+	        focusCircleStyle: {},
+	        focusLineStyle: {}
+	      });
+	    }
+	  }, {
+	    key: 'onMouseOut',
+	    value: function onMouseOut() {
+	      this.setState({
+	        focusCircleStyle: {},
+	        focusLineStyle: {}
+	      });
+	    }
+	  }, {
+	    key: 'onMouseMove',
+	    value: function onMouseMove() {
+	      var data = this.dataset[0].gdp;
+	      var mouseX = _d2.default.mouse(this.refs.overlay)[0] - this.padding.left;
+	      var x0 = this.xScale.invert(mouseX);
+	      x0 = Math.floor(x0);
+	      var bisect = _d2.default.bisector(function (d) {
+	        return d[0];
+	      }).left;
+	      var index = bisect(data, x0);
+	      var x1 = data[index][0];
+	      var y1 = data[index][1];
+	      var focusX = this.xScale(x1) + this.padding.left;
+	      var focusY = this.yScale(y1) + this.padding.top;
+	
+	      this.setState({
+	        focusCircleStyle: {
+	          transform: 'translate(' + focusX + ', ' + focusY + ')'
+	        },
+	        focusLineText: x1 + '年的GDP: ' + y1 + '亿美元',
+	        verticalLine: {
+	          x1: focusX,
+	          y1: focusY,
+	          x2: focusX,
+	          y2: this.height - this.padding.bottom
+	        },
+	        horizontalLine: {
+	          x1: focusX,
+	          y1: focusY,
+	          x2: this.padding.left,
+	          y2: focusY
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var dataset = [{
+	      var _this2 = this;
+	
+	      this.dataset = [{
 	        country: 'china',
 	        gdp: [[2000, 11920], [2001, 13170], [2002, 14550], [2003, 16500], [2004, 19440], [2005, 22870], [2006, 27930], [2007, 35040], [2008, 45470], [2009, 51050], [2010, 59490], [2011, 73140], [2012, 83860], [2013, 103550]]
 	      }, {
@@ -10021,8 +10091,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        gdp: [[2000, 47310], [2001, 41590], [2002, 39800], [2003, 43020], [2004, 46500], [2005, 45710], [2006, 43560], [2007, 43560], [2008, 48490], [2009, 50350], [2010, 54950], [2011, 59050], [2012, 59370], [2013, 48980]]
 	      }];
 	      var width = 400;
-	      var height = 400;
-	      var padding = {
+	      this.height = 400;
+	      this.padding = {
 	        top: 50,
 	        right: 50,
 	        bottom: 50,
@@ -10030,8 +10100,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      };
 	      var gdpmax = 0;
 	
-	      for (var i = 0; i < dataset.length; i++) {
-	        var currGdp = _d2.default.max(dataset[i].gdp, function (d) {
+	      for (var i = 0; i < this.dataset.length; i++) {
+	        var currGdp = _d2.default.max(this.dataset[i].gdp, function (d) {
 	          return d[1];
 	        });
 	
@@ -10039,25 +10109,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	          gdpmax = currGdp;
 	        }
 	      }
-	      var xScale = _d2.default.scale.linear().domain([2000, 2013]).range([0, width - padding.left - padding.right]);
-	      var yScale = _d2.default.scale.linear().domain([0, gdpmax * 1.1]).range([height - padding.top - padding.bottom, 0]);
+	      this.xScale = _d2.default.scale.linear().domain([2000, 2013]).range([0, width - this.padding.left - this.padding.right]);
+	      this.yScale = _d2.default.scale.linear().domain([0, gdpmax * 1.1]).range([this.height - this.padding.top - this.padding.bottom, 0]);
 	
 	      var linePath = _d2.default.svg.line().x(function (d) {
-	        return xScale(d[0]);
+	        return _this2.xScale(d[0]);
 	      }).y(function (d) {
-	        return yScale(d[1]);
+	        return _this2.yScale(d[1]);
 	      });
 	      var colors = [_d2.default.rgb(0, 0, 255), _d2.default.rgb(0, 255, 0)];
 	
-	      this.xAxis = _d2.default.svg.axis().scale(xScale).ticks(5).tickFormat(_d2.default.format('d')).orient('bottom');
-	      this.yAxis = _d2.default.svg.axis().scale(yScale).orient('left');
+	      this.xAxis = _d2.default.svg.axis().scale(this.xScale).ticks(5).tickFormat(_d2.default.format('d')).orient('bottom');
+	      this.yAxis = _d2.default.svg.axis().scale(this.yScale).orient('left');
 	
 	      return _react2.default.createElement(
 	        'svg',
-	        { width: width, height: height },
-	        dataset.map(function (data, index) {
+	        { width: width, height: this.height },
+	        this.dataset.map(function (data, index) {
 	          return _react2.default.createElement('path', { key: index,
-	            transform: 'translate(' + padding.left + ', ' + padding.top + ')',
+	            transform: 'translate(' + _this2.padding.left + ', ' + _this2.padding.top + ')',
 	            d: linePath(data.gdp),
 	            fill: 'none',
 	            strokeWidth: 3,
@@ -10065,10 +10135,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }),
 	        _react2.default.createElement('g', { ref: 'xAxis',
 	          className: 'axis',
-	          transform: 'translate(' + padding.left + ',' + (height - padding.bottom) + ')' }),
+	          transform: 'translate(' + this.padding.left + ',' + (this.height - this.padding.bottom) + ')' }),
 	        _react2.default.createElement('g', { ref: 'yAxis',
 	          className: 'axis',
-	          transform: 'translate(' + padding.left + ',' + padding.top + ')' })
+	          transform: 'translate(' + this.padding.left + ',' + this.padding.top + ')' }),
+	        _react2.default.createElement(
+	          'g',
+	          _extends({ className: 'focusCircle' }, this.state.focusCircleStyle),
+	          _react2.default.createElement('circle', { r: 4.5 }),
+	          _react2.default.createElement(
+	            'text',
+	            { dx: 10, dy: '1em' },
+	            this.state.focusLineText
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'g',
+	          { className: 'focusLine', style: this.state.focusLineStyle },
+	          _react2.default.createElement('line', _extends({}, this.state.verticalLine, { stroke: 'black', strokeWidth: 1 })),
+	          _react2.default.createElement('line', _extends({}, this.state.horizontalLine, { stroke: 'black', strokeWidth: 1 }))
+	        ),
+	        _react2.default.createElement('rect', { ref: 'overlay',
+	          className: 'overlay',
+	          x: this.padding.left,
+	          y: this.padding.top,
+	          width: width - this.padding.left - this.padding.right,
+	          height: this.height - this.padding.top - this.padding.bottom,
+	          fill: 'none',
+	          pointerEvents: 'all',
+	          onMouseOver: this.onMouseOver.bind(this),
+	          onMouseOut: this.onMouseOut.bind(this) })
 	      );
 	    }
 	  }]);
@@ -10112,12 +10208,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function PieChart() {
 	    _classCallCheck(this, PieChart);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PieChart).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PieChart).call(this));
+	
+	    _this.state = {
+	      tooltip: '',
+	      style: {}
+	    };
+	    return _this;
 	  }
 	
 	  _createClass(PieChart, [{
+	    key: 'onMouseOver',
+	    value: function onMouseOver(d) {
+	      this.setState({
+	        tooltip: d.data[0] + '的出货量为\n        ' + d.data[1] + ' 百万台'
+	      });
+	    }
+	  }, {
+	    key: 'onMouseMove',
+	    value: function onMouseMove(color, event) {
+	      this.setState({
+	        style: {
+	          left: event.pageX,
+	          top: event.pageY + 20,
+	          boxShadow: '10px 0px 0px ' + color
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'onMouseOut',
+	    value: function onMouseOut() {
+	      this.setState({
+	        style: {
+	          opacity: 0
+	        }
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+	
 	      var width = 600;
 	      var height = 600;
 	      var dataset = [['小米', 60.8], ['三星', 58.4], ['联想', 47.3], ['苹果', 46.6], ['华为', 41.3], ['酷派', 40.1], ['其他', 111.5]];
@@ -10131,34 +10262,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var color = _d2.default.scale.category20();
 	
 	      return _react2.default.createElement(
-	        'svg',
-	        { width: width, height: height },
-	        pieData.map(function (data, index) {
-	          return _react2.default.createElement(
-	            'g',
-	            { transform: 'translate(' + width / 2 + ', ' + height / 2 + ')', key: index },
-	            _react2.default.createElement('path', { fill: color(index), d: arc(data) }),
-	            _react2.default.createElement(
-	              'text',
-	              { transform: 'translate(' + arc.centroid(data)[0] * 1.4 + ', ' + arc.centroid(data)[1] * 1.4 + ')',
-	                textAnchor: 'middle' },
-	              (Number(data.value) / _d2.default.sum(dataset, function (d) {
-	                return d[1];
-	              }) * 100).toFixed(1) + '%'
-	            ),
-	            _react2.default.createElement('line', { stroke: 'black',
-	              x1: arc.centroid(data)[0] * 2,
-	              y1: arc.centroid(data)[1] * 2,
-	              x2: arc.centroid(data)[0] * 2.2,
-	              y2: arc.centroid(data)[1] * 2.2 }),
-	            _react2.default.createElement(
-	              'text',
-	              { transform: 'translate(' + arc.centroid(data)[0] * 2.5 + ', ' + arc.centroid(data)[1] * 2.5 + ')',
-	                textAnchor: 'middle' },
-	              data.data[0]
-	            )
-	          );
-	        })
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'svg',
+	          { width: width, height: height },
+	          pieData.map(function (data, index) {
+	            return _react2.default.createElement(
+	              'g',
+	              { transform: 'translate(' + width / 2 + ', ' + height / 2 + ')', key: index },
+	              _react2.default.createElement('path', { fill: color(index), d: arc(data),
+	                onMouseOver: _this2.onMouseOver.bind(_this2, data),
+	                onMouseMove: _this2.onMouseMove.bind(_this2, color(index)),
+	                onMouseOut: _this2.onMouseOut.bind(_this2) }),
+	              _react2.default.createElement(
+	                'text',
+	                { transform: 'translate(' + arc.centroid(data)[0] * 1.4 + ', ' + arc.centroid(data)[1] * 1.4 + ')',
+	                  textAnchor: 'middle' },
+	                (Number(data.value) / _d2.default.sum(dataset, function (d) {
+	                  return d[1];
+	                }) * 100).toFixed(1) + '%'
+	              ),
+	              _react2.default.createElement('line', { stroke: 'black',
+	                x1: arc.centroid(data)[0] * 2,
+	                y1: arc.centroid(data)[1] * 2,
+	                x2: arc.centroid(data)[0] * 2.2,
+	                y2: arc.centroid(data)[1] * 2.2 }),
+	              _react2.default.createElement(
+	                'text',
+	                { transform: 'translate(' + arc.centroid(data)[0] * 2.5 + ', ' + arc.centroid(data)[1] * 2.5 + ')',
+	                  textAnchor: 'middle' },
+	                data.data[0]
+	              )
+	            );
+	          })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'tooltip', style: this.state.style },
+	          this.state.tooltip
+	        )
 	      );
 	    }
 	  }]);
@@ -11215,13 +11358,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _react2.default.createElement(
 	          'svg',
 	          { width: width, height: height },
-	          data.map(function (d, i) {
+	          data.map(function (d, index) {
 	            return _react2.default.createElement(
 	              'g',
-	              { index: i,
-	                fill: color(i) },
+	              { key: index,
+	                fill: color(index) },
 	              d.sales.map(function (d, i) {
-	                return _react2.default.createElement('rect', { index: i,
+	                return _react2.default.createElement('rect', { key: i,
 	                  x: xScale(d.year),
 	                  y: yRangeWidth - yScale(d.y0 + d.y),
 	                  width: xScale.rangeBand(),
@@ -11229,12 +11372,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                  transform: 'translate(' + padding.left + ', ' + padding.top + ')' });
 	              }),
 	              _react2.default.createElement('circle', { cx: width - padding.right * 0.98,
-	                cy: padding.top * 2 + labHeight * i,
+	                cy: padding.top * 2 + labHeight * index,
 	                r: labRadius }),
 	              _react2.default.createElement(
 	                'text',
 	                { x: width - padding.right * 0.8,
-	                  y: padding.top * 2 + labHeight * i,
+	                  y: padding.top * 2 + labHeight * index,
 	                  dy: labRadius / 2 },
 	                d.name
 	              )
@@ -11245,19 +11388,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _react2.default.createElement(
 	          'svg',
 	          { width: width, height: height },
-	          data.map(function (d, i) {
+	          data.map(function (d, index) {
 	            return _react2.default.createElement(
 	              'g',
-	              { index: i,
-	                fill: color(i) },
+	              { key: index,
+	                fill: color(index) },
 	              _react2.default.createElement('path', { d: area(d.sales) }),
 	              _react2.default.createElement('circle', { cx: width - padding.right * 0.98,
-	                cy: padding.top * 2 + labHeight * i,
+	                cy: padding.top * 2 + labHeight * index,
 	                r: labRadius }),
 	              _react2.default.createElement(
 	                'text',
 	                { x: width - padding.right * 0.8,
-	                  y: padding.top * 2 + labHeight * i,
+	                  y: padding.top * 2 + labHeight * index,
 	                  dy: labRadius / 2 },
 	                d.name
 	              )
@@ -11370,6 +11513,78 @@ return /******/ (function(modules) { // webpackBootstrap
 	    'children': [{ 'name': '南京', 'gdp': 8820 }, { 'name': '无锡', 'gdp': 8205 }, { 'name': '徐州', 'gdp': 4964 }, { 'name': '常州', 'gdp': 4360 }, { 'name': '苏州', 'gdp': 13500 }, { 'name': '南通', 'gdp': 5038 }, { 'name': '连云港', 'gdp': 1785 }, { 'name': '淮安', 'gdp': 2455 }, { 'name': '盐城', 'gdp': 3836 }, { 'name': '扬州', 'gdp': 3697 }, { 'name': '镇江', 'gdp': 2950 }, { 'name': '泰州', 'gdp': 3006 }, { 'name': '宿迁', 'gdp': 1930 }]
 	  }]
 	};
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _d = __webpack_require__(3);
+	
+	var _d2 = _interopRequireDefault(_d);
+	
+	var _chinaGeo = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./china.geo.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _chinaGeo2 = _interopRequireDefault(_chinaGeo);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var GeoMap = function (_Component) {
+	  _inherits(GeoMap, _Component);
+	
+	  function GeoMap() {
+	    _classCallCheck(this, GeoMap);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(GeoMap).apply(this, arguments));
+	  }
+	
+	  _createClass(GeoMap, [{
+	    key: 'render',
+	    value: function render() {
+	      var width = 600;
+	      var height = 600;
+	      var projection = _d2.default.geo.mercator().center([107, 31]).scale(500).translate([width / 2, height / 2]);
+	      var path = _d2.default.geo.path().projection(projection);
+	      var color = _d2.default.scale.category20();
+	
+	      return _react2.default.createElement(
+	        'svg',
+	        { width: width, height: height },
+	        _react2.default.createElement(
+	          'g',
+	          null,
+	          _chinaGeo2.default.features.map(function (d, i) {
+	            return _react2.default.createElement('path', { key: i,
+	              className: 'province',
+	              fill: color(i),
+	              d: path(d) });
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return GeoMap;
+	}(_react.Component);
+	
+	exports.default = GeoMap;
 
 /***/ }
 /******/ ])
