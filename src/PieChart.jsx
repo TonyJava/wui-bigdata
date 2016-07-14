@@ -8,6 +8,16 @@ export default class PieChart extends Component {
       tooltip: '',
       style: {}
     };
+
+    this.pie = d3.layout.pie().value(d => d[1]);
+    this.dataset = [['小米', 60.8], ['三星', 58.4], ['联想', 47.3],
+                     ['苹果', 46.6], ['华为', 41.3], ['酷派', 40.1],
+                     ['其他', 111.5]];
+    this.pieData = this.pie(this.dataset);
+    this.pieData.forEach(data => {
+      data.dx = 300;
+      data.dy = 300;
+    });
   }
 
   onMouseOver(d) {
@@ -36,14 +46,43 @@ export default class PieChart extends Component {
     })
   }
 
+  onDragMove(d, index) {
+    this.pieData[index].dx += d3.event.dx;
+    this.pieData[index].dy += d3.event.dy;
+    this.forceUpdate();
+  }
+
+  onDragEnd(d, i) {
+    const dis2 = d.dx * d.dx + d.dy * d.dy;
+
+    if (dis2 > 200 * 200) {
+      this.dataset.splice(i, 1);
+
+      this.pieData = this.pie(this.dataset);
+      this.pieData.forEach(data => {
+        data.dx = 300;
+        data.dy = 300;
+      });
+
+      this.forceUpdate();
+    }
+  }
+
+  componentDidMount() {
+    const drag = d3.behavior.drag()
+                   .origin(null)
+                   .on('drag', this.onDragMove.bind(this))
+                   .on('dragend', this.onDragEnd.bind(this));
+
+    d3.select(this.refs['pie-svg'])
+      .selectAll('g')
+      .data(this.pieData)
+      .call(drag);
+  }
+
   render() {
     const width = 600;
     const height = 600;
-    const dataset = [['小米', 60.8], ['三星', 58.4], ['联想', 47.3],
-                     ['苹果', 46.6], ['华为', 41.3], ['酷派', 40.1],
-                     ['其他', 111.5]];
-    const pie = d3.layout.pie().value(d => d[1]);
-    const pieData = pie(dataset);
     const outerRadius = width / 3;
     const innerRadius = 0;
     const arc = d3.svg.arc()
@@ -53,17 +92,17 @@ export default class PieChart extends Component {
 
     return (
       <div>
-        <svg width={width} height={height}>
+        <svg width={width} height={height} ref="pie-svg">
         {
-          pieData.map((data, index) => (
-            <g transform={`translate(${width / 2}, ${height / 2})`} key={index}>
+          this.pieData.map((data, index) => (
+            <g transform={`translate(${data.dx}, ${data.dy})`} key={index}>
               <path fill={color(index)} d={arc(data)}
                     onMouseOver={this.onMouseOver.bind(this, data)}
                     onMouseMove={this.onMouseMove.bind(this, color(index))}
                     onMouseOut={this.onMouseOut.bind(this)} />
               <text transform={`translate(${arc.centroid(data)[0] * 1.4}, ${arc.centroid(data)[1] * 1.4})`}
                     textAnchor="middle">
-                { (Number(data.value) / d3.sum(dataset, d => d[1]) * 100).toFixed(1) + '%' }
+                { (Number(data.value) / d3.sum(this.dataset, d => d[1]) * 100).toFixed(1) + '%' }
               </text>
               <line stroke="black"
                     x1={arc.centroid(data)[0] * 2}
