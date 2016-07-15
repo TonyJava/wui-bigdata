@@ -13,8 +13,10 @@ import {
   Histogram,
   PartitionDiagram,
   StackDiagram,
-  Treemap
-  // GeoMap
+  Treemap,
+  // GeoMap,
+  BrushSample,
+  Mindmap
 } from '../src/index.jsx';
 
 export default class Demo extends React.Component {
@@ -37,6 +39,8 @@ export default class Demo extends React.Component {
         <StackDiagram shape="rect" />
         <StackDiagram shape="area" />
         <Treemap />
+        <BrushSample />
+        <Mindmap />
       </div>
     );
   }

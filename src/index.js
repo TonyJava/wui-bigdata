@@ -15,6 +15,8 @@ import PartitionDiagram from './PartitionDiagram';
 import StackDiagram from './StackDiagram';
 import Treemap from './Treemap';
 // import GeoMap from './GeoMap';
+import BrushSample from './BrushSample';
+import Mindmap from './Mindmap';
 
 // this should be the entry point to your library
 module.exports = {
@@ -31,6 +33,8 @@ module.exports = {
   Histogram,
   PartitionDiagram,
   StackDiagram,
-  Treemap
-  // GeoMap
+  Treemap,
+  // GeoMap,
+  BrushSample,
+  Mindmap
 };

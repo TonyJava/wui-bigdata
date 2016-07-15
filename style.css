@@ -15,13 +15,13 @@
   fill: none;
   stroke: black;
   stroke-opacity: .5;
-  stroke-width: 8px;
+  stroke-width: 1px;
 }
 
 .node {
   fill: none;
   stroke: steelblue;
-  stroke-width: 2px;
+  stroke-width: 1px;
 }
 
 .leafnode {
