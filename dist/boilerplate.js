@@ -112,11 +112,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _Treemap2 = _interopRequireDefault(_Treemap);
 	
+	var _BrushSample = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./BrushSample\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _BrushSample2 = _interopRequireDefault(_BrushSample);
+	
+	var _Mindmap = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Mindmap\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _Mindmap2 = _interopRequireDefault(_Mindmap);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// import GeoMap from './GeoMap';
-	
 	// this should be the entry point to your library
+	
+	// import GeoMap from './GeoMap';
 	module.exports = {
 	  BarChart: _BarChart2.default,
 	  ScatterChart: _ScatterChart2.default,
@@ -131,8 +139,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Histogram: _Histogram2.default,
 	  PartitionDiagram: _PartitionDiagram2.default,
 	  StackDiagram: _StackDiagram2.default,
-	  Treemap: _Treemap2.default
-	  // GeoMap
+	  Treemap: _Treemap2.default,
+	  // GeoMap,
+	  BrushSample: _BrushSample2.default,
+	  Mindmap: _Mindmap2.default
 	};
 
 /***/ }
