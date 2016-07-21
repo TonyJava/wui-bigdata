@@ -24,12 +24,19 @@ const pages = [{
     imports: documentationImports,
     component: require('../README.md')
   }, {
-    path: '/foo',
-    title: 'Foo',
+    path: '/bar-chart',
+    title: 'BarChart',
     imports: {
-      Foo: require('./Foo')
+      BarChart: require('../src/BarChart')
     },
     component: require('./BarChart.md')
+  }, {
+    path: '/scatter-chart',
+    title: 'ScatterChart',
+    imports: {
+      ScatterChart: require('../src/ScatterChart')
+    },
+    component: require('./ScatterChart.md')
   }
 ];
 
@@ -51,6 +58,7 @@ ReactDOM.render(
         jsx: props => <ReactSpecimen {...props} />
       }}
       title={title}
+      logoSrc="docs/logo.png"
     />
   </div>,
   document.getElementById('app')
