@@ -1,21 +1,14 @@
 import * as path from 'path';
 
 import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import HtmlWebpackRemarkPlugin from 'html-webpack-remark-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import SystemBellPlugin from 'system-bell-webpack-plugin';
-import CleanPlugin from 'clean-webpack-plugin';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
 import merge from 'webpack-merge';
-import React from 'react';
-import ReactDOM from 'react-dom/server';
 
-import App from './demo/App.jsx';
-import pkg from './package.json';
+const pkg = require('./package.json');
 
-import js from 'highlight.js/lib/languages/javascript';
-
-const RENDER_UNIVERSAL = true;
 const TARGET = process.env.npm_lifecycle_event;
 const ROOT_PATH = __dirname;
 const config = {
@@ -23,32 +16,16 @@ const config = {
     readme: path.join(ROOT_PATH, 'README.md'),
     dist: path.join(ROOT_PATH, 'dist'),
     src: path.join(ROOT_PATH, 'src'),
-    demo: path.join(ROOT_PATH, 'demo'),
+    docs: path.join(ROOT_PATH, 'docs'),
     tests: path.join(ROOT_PATH, 'tests')
   },
-  filename: 'boilerplate',
-  library: 'Boilerplate'
+  filename: 'wui-bigdata',
+  library: 'WUI'
 };
-const CSS_PATHS = [
-  config.paths.demo,
-  path.join(ROOT_PATH, 'style.css'),
-  path.join(ROOT_PATH, 'node_modules', 'purecss'),
-  path.join(ROOT_PATH, 'node_modules', 'highlight.js', 'styles', 'github.css'),
-  path.join(ROOT_PATH, 'node_modules', 'react-ghfork', 'gh-fork-ribbon.ie.css'),
-  path.join(ROOT_PATH, 'node_modules', 'react-ghfork', 'gh-fork-ribbon.css')
-];
-const STYLE_ENTRIES = [
-  'purecss',
-  'highlight.js/styles/github.css',
-  'react-ghfork/gh-fork-ribbon.ie.css',
-  'react-ghfork/gh-fork-ribbon.css',
-  './demo/main.css',
-  './style.css'
-];
 
 process.env.BABEL_ENV = TARGET;
 
-const demoCommon = {
+const common = {
   resolve: {
     extensions: ['', '.js', '.jsx', '.css', '.png', '.jpg']
   },
@@ -58,7 +35,7 @@ const demoCommon = {
         test: /\.jsx?$/,
         loaders: ['eslint'],
         include: [
-          config.paths.demo,
+          config.paths.docs,
           config.paths.src
         ]
       }
@@ -67,20 +44,24 @@ const demoCommon = {
       {
         test: /\.png$/,
         loader: 'url?limit=100000&mimetype=image/png',
-        include: config.paths.demo
+        include: config.paths.docs
       },
       {
         test: /\.jpg$/,
         loader: 'file',
-        include: config.paths.demo
+        include: config.paths.docs
       },
       {
         test: /\.json$/,
         loader: 'json',
-        include: [
-          path.join(ROOT_PATH, 'package.json'),
-          config.paths.demo,
-          config.paths.src
+        include: path.join(ROOT_PATH, 'package.json')
+      },
+      {
+        test: /\.md$/,
+        loaders: ['catalog/lib/loader', 'raw'],
+        includes: [
+          config.paths.docs,
+          './README.md'
         ]
       }
     ]
@@ -90,31 +71,31 @@ const demoCommon = {
   ]
 };
 
+const siteCommon = {
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: require('html-webpack-template'), // eslint-disable-line global-require
+      inject: false,
+      title: pkg.name,
+      appMountId: 'app'
+    }),
+    new webpack.DefinePlugin({
+      NAME: JSON.stringify(pkg.name),
+      USER: JSON.stringify(pkg.user),
+      VERSION: JSON.stringify(pkg.version)
+    })
+  ]
+};
+
 if (TARGET === 'start') {
-  module.exports = merge(demoCommon, {
+  module.exports = merge(common, siteCommon, {
     devtool: 'eval-source-map',
     entry: {
-      demo: [config.paths.demo].concat(STYLE_ENTRIES)
+      docs: [config.paths.docs]
     },
     plugins: [
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': '"development"'
-      }),
-      new HtmlWebpackPlugin({
-        title: pkg.name + ' - ' + pkg.description,
-        template: 'lib/index_template.ejs',
-
-        // Context for the template
-        name: pkg.name,
-        description: pkg.description,
-        demonstration: ''
-      }),
-      new HtmlWebpackRemarkPlugin({
-        key: 'documentation',
-        file: config.paths.readme,
-        languages: {
-          js
-        }
       }),
       new webpack.HotModuleReplacementPlugin()
     ],
@@ -122,14 +103,13 @@ if (TARGET === 'start') {
       loaders: [
         {
           test: /\.css$/,
-          loaders: ['style', 'css'],
-          include: CSS_PATHS
+          loaders: ['style', 'css']
         },
         {
           test: /\.jsx?$/,
           loaders: ['babel?cacheDirectory'],
           include: [
-            config.paths.demo,
+            config.paths.docs,
             config.paths.src
           ]
         }
@@ -170,14 +150,13 @@ NamedModulesPlugin.prototype.apply = function(compiler) {
 };
 
 if (TARGET === 'gh-pages' || TARGET === 'gh-pages:stats') {
-  module.exports = merge(demoCommon, {
+  module.exports = merge(common, siteCommon, {
     entry: {
-      app: config.paths.demo,
+      app: config.paths.docs,
       vendors: [
         'react',
-        'd3'
-      ],
-      style: STYLE_ENTRIES
+        'react-dom'
+      ]
     },
     output: {
       path: './gh-pages',
@@ -185,29 +164,13 @@ if (TARGET === 'gh-pages' || TARGET === 'gh-pages:stats') {
       chunkFilename: '[chunkhash].js'
     },
     plugins: [
-      new CleanPlugin(['gh-pages'], {
+      new CleanWebpackPlugin(['gh-pages'], {
         verbose: false
       }),
       new ExtractTextPlugin('[name].[chunkhash].css'),
       new webpack.DefinePlugin({
           // This affects the react lib size
         'process.env.NODE_ENV': '"production"'
-      }),
-      new HtmlWebpackPlugin({
-        title: pkg.name + ' - ' + pkg.description,
-        template: 'lib/index_template.ejs',
-
-        // Context for the template
-        name: pkg.name,
-        description: pkg.description,
-        demonstration: RENDER_UNIVERSAL ? ReactDOM.renderToString(<App />) : ''
-      }),
-      new HtmlWebpackRemarkPlugin({
-        key: 'documentation',
-        file: config.paths.readme,
-        languages: {
-          js
-        }
       }),
       new NamedModulesPlugin(),
       new webpack.optimize.DedupePlugin(),
@@ -224,14 +187,13 @@ if (TARGET === 'gh-pages' || TARGET === 'gh-pages:stats') {
       loaders: [
         {
           test: /\.css$/,
-          loader: ExtractTextPlugin.extract('style', 'css'),
-          include: CSS_PATHS
+          loader: ExtractTextPlugin.extract('style', 'css')
         },
         {
           test: /\.jsx?$/,
           loaders: ['babel'],
           include: [
-            config.paths.demo,
+            config.paths.docs,
             config.paths.src
           ]
         }
@@ -242,7 +204,7 @@ if (TARGET === 'gh-pages' || TARGET === 'gh-pages:stats') {
 
 // !TARGET === prepush hook for test
 if (TARGET === 'test' || TARGET === 'test:tdd' || !TARGET) {
-  module.exports = merge(demoCommon, {
+  module.exports = merge(common, {
     module: {
       preLoaders: [
         {
