@@ -77,7 +77,8 @@ const siteCommon = {
       template: require('html-webpack-template'), // eslint-disable-line global-require
       inject: false,
       title: pkg.name,
-      appMountId: 'app'
+      appMountId: 'app',
+      favicon: './favicon.ico'
     }),
     new webpack.DefinePlugin({
       NAME: JSON.stringify(pkg.name),
