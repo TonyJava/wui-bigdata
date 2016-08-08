@@ -49,9 +49,9 @@ export default class PartitionDiagram extends Component {
         </svg>
       );
     } else {
-      const width = 600;
-      const height = 600;
-      const radius = 300;
+      const width = 900;
+      const height = 900;
+      const radius = 450;
       const partition = d3.layout.partition()
                           .sort(null)
                           .size([2 * Math.PI, radius * radius])
